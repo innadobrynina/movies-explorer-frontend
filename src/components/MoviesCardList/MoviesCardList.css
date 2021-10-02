@@ -1,0 +1,30 @@
+.movies__cards {
+  padding: 70px 70px 10px 70px;
+}
+
+.cards-list {
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+@media screen and (max-width: 769px) {
+  .movies__cards {
+    padding: 70px 30px 30px;
+  }
+  .cards-list {
+    grid-template-columns: repeat(auto-fit, 342px);
+    gap: 24px;
+  }
+}
+
+@media screen and (max-width: 551px) {
+  .movies__cards {
+    padding: 40px 10px 0;
+  }
+  .cards-list {
+    grid-template-columns: repeat(auto-fit, 300px);
+  }
+}
