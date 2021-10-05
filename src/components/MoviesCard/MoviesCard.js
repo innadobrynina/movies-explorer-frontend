@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import React from "react";
 import './MoviesCard.css';
-import image from "../../images/pic1.png"
-
+import image from "../../images/pic1.png";
+import { Route } from "react-router-dom";
 
 
 function MoviesCard() {
@@ -15,9 +16,16 @@ return (
                 <p className="movies-card__duration">Продолжительность</p>
                 
             </figcaption>
+            <Route path='/movies'>
             <div className="movies-card-block">
                 <button className="movies-card__like-button" type="button" />
             </div>
+            </Route>
+            <Route path='/saved-movies'>
+            <div className="movies-card-block">
+                <button className="movies-card__delete-button" type="button" />
+            </div>
+            </Route>
         </div>
       <a className="movies-card__link" href="" target="_blank" rel="noopener noreferrer">
         <img className="movies-card__card" src={image} alt="фильм"/>

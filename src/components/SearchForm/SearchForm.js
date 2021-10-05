@@ -11,6 +11,7 @@ function SearchForm() {
             className="search-form__field"
             placeholder='Фильм'
             type="text"
+            required
           />
         </fieldset>
         <button

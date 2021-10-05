@@ -77,7 +77,7 @@
     }
   
     .techs__title {
-      padding: 80px 0 22px 0;
+      padding: 80px 20px 22px;
     }
   
     .techs__description {
@@ -91,6 +91,16 @@
     }
   }
   
+ @media screen and (max-width: 800px) {
+    .techs {
+      padding: 90px 5px;
+    }
+
+    .techs__title {
+      margin: 0 0 90px 20px;
+    }
+  }
+
   @media screen and (max-width: 650px) {
     .techs {
       padding: 70px 18px;

@@ -28,7 +28,7 @@
   box-sizing: border-box;
   margin: 0 14px 0 0;
   padding: 0;
-  background-image: url('../../images/inactive-checkbox-button.svg');
+  background-image: url('../../images/smalltumb-active.svg');
   background-size: contain;
   background-repeat: no-repeat;
   display: flex;

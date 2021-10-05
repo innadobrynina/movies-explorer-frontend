@@ -60,6 +60,21 @@
   height: 12px;
 }
 
+
+.movies-card__delete-button {
+  width: 14px;
+  height: 12px;
+  padding: 0;
+  background-image: url('../../images/close-button.svg');
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  transition: .3s linear;
+  margin: 0;
+}
+
 .movies-card__like-button:hover {
   opacity: .8;
   cursor: pointer;
@@ -155,4 +170,7 @@
     align-items: baseline;
   }
   
+  .movies-card__delete-button{
+      margin: 0 16px;
+  }
 }
