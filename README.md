@@ -1,3 +1,9 @@
+# Frontend дипломного проекта (Реализован на React)
+
+https://github.com/innadobrynina/movies-explorer-frontend
+
+Проект представляет собой одностраничный сайт. Для просмотра основного контента, новым пользователям необходимо зарегестрироваться и авторизоваться. Основной контент представлен в виде карточек c фильмами.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
