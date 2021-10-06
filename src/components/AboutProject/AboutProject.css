@@ -130,7 +130,31 @@
     }
 
     .about-project__time {
-        display: none;
+        display: block;
+    }
+
+    .about-project__caption {
+        font-size: 11px;
+        margin: 10px 0 0 0;
+    }
+
+    .about-project__part {
+        font-size: 11px;
+    }
+    .about-project__caption_front {
+        width: 70%;
+    }
+    
+    .about-project__caption_back {
+        width: 30%;
+    }
+
+    .about-project__part_front {
+        width: 70%;
+    }
+
+    .about-project__part_back {
+        width: 30%;
     }
 }
 
