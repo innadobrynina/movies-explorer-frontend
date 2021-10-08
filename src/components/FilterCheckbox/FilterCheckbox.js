@@ -1,18 +1,17 @@
    
 import './FilterCheckbox.css';
 
-function FilterCheckbox() {
+function FilterCheckbox(props) {
   return (
-     <form className="filter-checkbox">
-      <label className="filter-checkbox__container" htmlFor="checkbox">
-        <input className="filter-checkbox__invisible-field" type="checkbox" id="checkbox" />
-        <span
-          className="filter-checkbox__field"
-        />
-        <p className="filter-checkbox__field-name">Короткометражки</p>
+        <div className="filter-checkbox">
+      <label className="filter-checkbox__container">
+        <div className="filter-checkbox__switch">
+          <input className={`filter-checkbox__input ${props.isShort ? "filter-checkbox__input_active" : ""}`} onClick={props.changeMoviesType} name="short" id="short" type="checkbox" />
+          <span className="filter-checkbox__slider"></span>
+        </div>
+        <p className="filter-checkbox__label">Короткометражка</p>
       </label>
-    </form>
-  );
+    </div>
+  )
 }
-
 export default FilterCheckbox;

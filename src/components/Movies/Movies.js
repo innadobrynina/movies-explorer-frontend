@@ -12,18 +12,18 @@ function Movies(props) {
   const [isNotFound, setIsNotFound] = React.useState(false);
   const [cardList, setCardList] = React.useState([]);
 
-   function search(searchValue) {
+   function search(searchValue, isShort) {
    
     setIsSearching(true);
     MoviesApi.getMovies()
       .then(movies => {
         const regExp = new RegExp(searchValue.toLowerCase());
-        const filteredMovies = movies.filter((m) => regExp.test(m.nameRU.toLowerCase()))
+        const filteredMovies = movies.filter((m) => regExp.test(m.nameRU.toLowerCase())).filter((m) => isShort ? m.duration < 60 : m.duration > 60)
         if (filteredMovies.length === 0) return setIsNotFound(true);
         setIsNotFound(false);
         setCardList(filteredMovies);
       })
-      .catch(console.log)
+      .catch((err) => console.log(err))
       .finally(() => setIsSearching(false))
   }
 

@@ -96,15 +96,17 @@ function checkCountOfCards() {
       {props.isSearching && <Preloader />}
       {!props.isSearching && props.isNotFound && <CardsNotFound />}
       {!props.isSearching && props.isNotFound &&
+        <>
         <ul className='cards-list'>
             {
                 renderedCardList.map((card) => {
                   return <MoviesCard key={card.id} card={card} />
                 })
             }
-        </ul>   
-      }
-      {!props.isSearching && <ShowMore renderCards={renderCards} isAllCardsRendered={isAllCardsRendered} countCardsOfWidth={countCardsOfWidth} renderedCardList={renderedCardList} />}
+        </ul>
+      <ShowMore renderCards={renderCards} isAllCardsRendered={isAllCardsRendered} countCardsOfWidth={countCardsOfWidth} renderedCardList={renderedCardList} />
+      </>
+    }
     </section>
   )
 }

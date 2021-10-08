@@ -5,6 +5,11 @@ import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 function SearchForm(props) {
 
   const [searchValue, setSearchValue] = React.useState('');
+  const [isShort, setIsShort] = React.useState(false);
+
+  function changeMoviesType() {
+    setIsShort(!isShort);
+  }
 
   function handleSearchValueChange(e) {
     setSearchValue(e.target.value);
@@ -13,7 +18,7 @@ function SearchForm(props) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    props.onSubmit(searchValue);
+    props.onSubmit(searchValue, isShort);
   }
 
   return (
@@ -37,7 +42,7 @@ function SearchForm(props) {
           type="submit"
         />
       </form>
-      <FilterCheckbox
+      <FilterCheckbox isShort={isShort} changeMoviesType={changeMoviesType}
       />
     </section>
   );
