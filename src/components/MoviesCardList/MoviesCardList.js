@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router';
 import MoviesApi from '../../utils/MoviesApi';
+import CardsNotFound from '../CardsNotFound/CardsNotFound';
 import Preloader from '../Preloader/Preloader';
 import './MoviesCardList.css';
 import MoviesCard from "../MoviesCard/MoviesCard";
@@ -83,11 +84,18 @@ function checkCountOfCards() {
     // eslint-disable-next-line
   }, [props.cardList])
 
+    React.useEffect(() => {
+    if (props.isNotFound) {
+      setIsAllCardsRendered(true);
+    }
+  }, [props.isNotFound])
+
   return (
       
     <section className='cards movies__cards'>
       {props.isSearching && <Preloader />}
-      {!props.isSearching &&
+      {!props.isSearching && props.isNotFound && <CardsNotFound />}
+      {!props.isSearching && props.isNotFound &&
         <ul className='cards-list'>
             {
                 renderedCardList.map((card) => {

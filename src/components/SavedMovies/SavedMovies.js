@@ -6,16 +6,20 @@ import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import MoviesApi from '../../utils/MoviesApi';
 
-function SavedMovies() {
+function SavedMovies(props) {
 
   const [cardList, setCardList] = React.useState([]);
   const [isSearching, setIsSearching] = React.useState(false);
 
-  function search(e) {
-    e.preventDefault();
+  function search(searchValue) {
+    
     setIsSearching(true);
     MoviesApi.getMovies()
-      .then(movies => setCardList(movies))
+      .then(movies => {
+        const regExp = new RegExp(searchValue.toLowerCase());
+        const filteredMovies = movies.filter((m) => regExp.test(m.nameRU.toLowerCase()))
+        setCardList(filteredMovies);
+      })
       .catch(console.log)
       .finally(() => setIsSearching(false))
   }
@@ -25,12 +29,12 @@ function SavedMovies() {
   }
 
   return (
-    <div>
+    <>
       <Header />
       <SearchForm  onSubmit={search}/>
       <MoviesCardList isSearching={isSearching} cardList={cardList} handleCardListChange={handleCardListChange}/>
       <Footer />
-    </div>
+    </>
   );
 }
 
