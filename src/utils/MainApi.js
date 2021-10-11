@@ -10,8 +10,76 @@ class Api {
   }
 
   getSavedMovies() {
-    return fetch(`${this._baseUrl}/movies`)
+    return fetch(`${this._baseUrl}/movies`, {
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json',
+      }
+    })
       .then(this._checkResponse)
+  }
+
+  getProfileInfo() {
+    return fetch(`${this._baseUrl}/users/me`, {
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(this._checkResponse);
+  }
+
+  setProfileInfo(data) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: data.name,
+        email: data.email,
+      }),
+    })
+      .then(this._checkResponse);
+  }
+
+  saveMovie(data) {
+    return fetch(`${this._baseUrl}/movies`, {
+      method: 'POST',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        country: data.country,
+        director: data.director,
+        duration: data.duration,
+        year: data.year,
+        description: data.description,
+        image: data.image.url ? `https://api.nomoreparties.co${data.image.url}` : data.image,
+        trailer: data.trailerLink ? data.trailerLink : 'https://yandex.ru',
+        thumbnail: data.trailerLink ? data.trailerLink : 'https://yandex.ru',
+        movieId: data.id || data.movieId,
+        nameRU: data.nameRU,
+        nameEN: data.nameEN,
+      }),
+    })
+      .then(this._checkResponse);
+  }
+
+  unsaveMovie(movieId) {
+    return fetch(`${this._baseUrl}/movies/${movieId}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this._token,
+      },
+    })
+      .then(this._checkResponse);
+  }
+
+  changeToken(token) {
+    this._token = `Bearer ${token}`
   }
 }
 
