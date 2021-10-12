@@ -1,7 +1,6 @@
 import React from 'react';
-import { useState } from 'react';
 import './App.css';
-import { Route, Switch, withRouter, useLocation } from 'react-router';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
@@ -11,13 +10,13 @@ import Login from '../Login/Login';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
+import auth from '../../utils/Auth';
 import mainApi from '../../utils/MainApi';
 import moviesApi from '../../utils/MoviesApi';
+import { useLocation } from 'react-router';
 import filter from '../../utils/filter';
 import { MESSAGES } from '../../config';
-import auth from '../../utils/Auth'
-
 
 
 function App(props) {
@@ -25,8 +24,8 @@ function App(props) {
   const location = useLocation();
 
   //Авторизация
-  const [currentUser, setCurrentUser] = useState({});
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = React.useState({});
+  const [loggedIn, setLoggedIn] = React.useState(false);
 
   //Загрузка
   const [isLoading, setIsLoading] = React.useState(false);

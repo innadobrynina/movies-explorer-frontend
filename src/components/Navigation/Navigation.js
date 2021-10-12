@@ -1,48 +1,40 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink as Link} from 'react-router-dom';
 import './Navigation.css';
-import account from '../../images/account-logo.svg';
 
-function Navigation() {
+function Navigation(props) {
 
   return (
-    <div className='navigation'>
-      <nav className='navigation__menu'>
-        <ul className='navigation__links'>
-          <NavLink
-            to='/'
-            className='navigation__link'
-          >
-            Главная
-          </NavLink>
-          <NavLink
-            to='/movies'
-            className='navigation__link'
-            activeClassName='navigation__link_active'
-          >
-            Фильмы
-          </NavLink>
-          <NavLink
-            to='/saved-movies'
-            className='navigation__link'
-            activeClassName='navigation__link_active'
-          >
-            Сохранённые фильмы
-          </NavLink>
-        </ul>
-        <NavLink
-          to='/profile'
-          className='header__link'
-          activeClassName='header__link_active'
-        >
-          <div className='header__container-account'>
-            <p className='header__account-name'>Аккаунт</p>
-            <img className='header__account-logo' src={account} alt='Ярлык аккаунта' />
-          </div>
-        </NavLink>
-      </nav>
-    </div>
-  );
+    <>
+      {
+        props.loggedIn ?
+          (
+            <nav className={`nav ${props.isMenuOpen ? 'nav_open' : ''} nav_with-menu`}>
+              <div className="nav__burger-icon" onClick={props.toggleMenu}></div>
+              <div className="nav__overlay"></div>
+              <div className="nav__menu">
+                <ul className="nav__links">
+                  <li className="nav__item"><Link className="nav__link nav__link_to_main" exact to="/" activeClassName="nav__link_active">Главная</Link></li>
+                  <li className="nav__item"><Link className="nav__link nav__link_to_movies" to="/movies" activeClassName="nav__link_active">Фильмы</Link></li>
+                  <li className="nav__item"><Link className="nav__link nav__link_to_saved-movies" to="/saved-movies" activeClassName="nav__link_active">Сохранённые фильмы</Link></li>
+                </ul>
+                <Link className="nav__link nav__link_to_my-account" to="/profile">Аккаунт</Link>
+                <div className="nav__close-button" onClick={props.toggleMenu}></div>
+              </div>
+            </nav>
+          ) : (
+            <nav className="nav">
+              <div className="nav__menu">
+                <ul className="nav__links">
+                  <li className="nav__item"><Link className="nav__link nav__link_to_signup" to="/signup">Регистрация</Link></li>
+                  <li className="nav__item"><Link className="nav__link nav__link_to_signin" to="/signin">Войти</Link></li>
+                </ul>
+              </div>
+            </nav>
+          )
+      }
+    </>
+  )
 }
 
 export default Navigation;

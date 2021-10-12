@@ -1,6 +1,6 @@
 import React from 'react';
 import './Login.css';
-import logo from '../../images/logo.svg';
+import Logo from '../Logo/Logo';
 import { Link } from 'react-router-dom';
 import validator from 'validator';
 
@@ -25,7 +25,7 @@ function Login(props) {
     `login__form-input ${isPasswordError ? 'login__form-input_error' : ''}`
   );
 
-function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
 
     props.onLogin({ email, password });
@@ -82,57 +82,29 @@ function handleSubmit(e) {
     setIsSubmitValid(false);
   }, [])
 
+
   return (
-  <section className='sign'>
-    <Link to='/' className='sign__start-page'>
-      <img className='sign__logo-image' src={logo} alt='Логотип' />
-    </Link>
-    <h2 className='sign__title'>Рады видеть!</h2>
-    <form className='sign__form'
-    onSubmit={handleSubmit}
-    >
-      <label className='sign__label'>
-        E-mail
-        <input
-          className={emailInputClassName}
-          required
-          name='email'
-          type='email'
-          placeholder=''
-          onChange={handleEmailInputChange}
-          value={email}
-        />
-        <p className="login__form-error">{emailError}</p>
-      </label>
-      <label className='sign__label'>
-        Пароль
-        <input
-          className={passwordInputClassName}
-          required
-          name='password'
-          type='password'
-          minLength='2'
-          maxLength='40'
-          onChange={handlePasswordInputChange}
-          value={password}
-          
-        />
-        <p className="login__form-error">{passwordError}</p>
-      </label>
-    
-    <button className='sign__button'
-    type='submit'
-    disabled={!isSubmitValid || props.isLoading}
-    >
-      Войти
-      </button>
-      </form>
-    <div className='sign__toggle'>
-      <p className='sign__text'>Ещё не зарегистрированы?</p>
-      <Link className='sign__link' to='/signup'>Регистрация</Link>
+  <div className="login">
+      <div className="login__content">
+        <Logo />
+        <h1 className="login__heading">Рады видеть!</h1>
+        <form className="login__form" onSubmit={handleSubmit}>
+          <div className="login__form-field">
+            <label className="login__form-label">E-mail</label>
+            <input className={emailInputClassName} name="email" type="email" value={email} onChange={handleEmailInputChange} required />
+            <p className="login__form-error">{emailError}</p>
+          </div>
+          <div className="login__form-field">
+            <label className="login__form-label">Пароль</label>
+            <input className={passwordInputClassName} name="password" type="password" value={password} onChange={handlePasswordInputChange} required />
+            <p className="login__form-error">{passwordError}</p>
+          </div>
+          <button className="login__submit-button" type="submit" disabled={!isSubmitValid || props.isLoading}>Войти</button>
+        </form>
+        <p className="login__register">Ещё не зарегистрированы?<Link className="login__register-link" to="/signup">Регистрация</Link></p>
+      </div>
     </div>
-  </section>
-  );
-};
+  )
+}
 
 export default Login;

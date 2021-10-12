@@ -1,37 +1,17 @@
-import React from 'react';
+import success from '../../images/successful_registration.svg';
+import fail from '../../images/failed_registration.svg'
 import './InfoTooltip.css';
 
-function InfoTooltip({ isOpen, onClose, isRegistered }) {
+function InfoTooltip(props) {
   return(
-    <div className={`popup popup_info-tool ${isOpen ? 'popup_opened' : ''}`}>
-      <div className="popup__container popup__container_form">
-        <button
-          type="button"
-          className={isRegistered
-            ? "popup__button-confirm popup__button-confirm_type_successful"
-            : "popup__button-confirm popup__button-confirm_type_failed"
-          }
-          aria-label="close-form"
-          onClick={onClose}
-        >
-        </button>
-        <h2
-          className="popup__title popup__title_type_info-tool"
-        >
-          {isRegistered
-          ? 'Вы успешно зарегистрировались!'
-          : 'Что-то пошло не так! Попробуйте ещё раз.'}
-        </h2>
-        <button
-          className="popup__close-form popup__close-form_infotool"
-          type="button"
-          aria-label="close-form"
-          onClick={onClose}
-        >
-        </button>
+    <div className={`popup popup_type_info ${props.isOpen ? 'popup_opened' : ''}`}>
+      <div className="popup__overlay" onClick={props.onClose}></div>
+      <div className="popup__container popup__container_type_info">
+        <img className="popup__result" src={props.result ? success : fail} alt="infoTooltipResult" />
+        <h2 className="popup__title popup__title_type_info">{props.message}</h2>
+        <button className="popup__close-button" type="button" onClick={props.onClose}></button>
       </div>
-    </div>
-  )
+    </div>)
 };
 
 export default InfoTooltip;
