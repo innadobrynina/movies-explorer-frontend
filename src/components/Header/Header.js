@@ -1,107 +1,22 @@
 import React from 'react';
 import './Header.css';
-import logo from '../../images/logo.svg';
-import { Link, Route, NavLink } from 'react-router-dom'
-import BurgerMenu from '../BurgerMenu/BurgerMenu';
+import Logo from '../Logo/Logo';
 import Navigation from '../Navigation/Navigation';
-import Account from '../Account/Account';
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-function Header({ loggedIn }) {
-  const currentUser = React.useContext(CurrentUserContext)
+function Header(props) {
+
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
+  function toggleMenu() {
+    setIsMenuOpen(!isMenuOpen);
+  }
+
 
   return (
-   <>
-      <Route exact path='/'>
-        <header className='header'>
-          <Link to='/'>
-            <img className='header__logo-image' src={logo} alt='Логотип' />
-          </Link>
-          {loggedIn ? (
-            <>
-              <BurgerMenu />
-              <Navigation />
-              <nav className='header__links header__links_loggedIn'>
-                <div className='header__main-links'>
-                  <NavLink
-                    to='/movies'
-                    className='header__link'
-                    activeClassName='header__link_active'
-                  >
-                    Фильмы
-                  </NavLink>
-                  <NavLink
-                    to='/saved-movies'
-                    className='header__link'
-                    activeClassName='header__link_active'
-                  >
-                    Сохранённые фильмы
-                  </NavLink>
-                </div>
-                <NavLink
-                  to='/profile'
-                  className='header__link'
-                  activeClassName='header__link_active'
-                >
-                  <Account />
-                </NavLink>
-              </nav>
-            </>
-          ) : (
-            <nav className='header__links'>
-            <NavLink
-              to='/signup'
-              className='header__link-white'
-              activeClassName='header__link_active'
-            >
-              Регистрация
-            </NavLink>
-            <NavLink
-              to='/signin'
-              className='header__link'
-              activeClassName='header__link_active'
-            >
-              <button className='header__button'>Войти</button>
-            </NavLink>
-          </nav>
-          )}
-        </header>
-      </Route>
-      <Route path={['/movies', '/saved-movies', '/profile']}>
-        <header className='header header_loggedIn'>
-          <Link to='/'>
-            <img className='header__logo-image' src={logo} alt='Логотип' />
-          </Link>
-          <BurgerMenu />
-          <Navigation />
-          <nav className='header__links header__links_loggedIn'>
-            <div className='header__main-links'>
-              <NavLink
-                to='/movies'
-                className='header__link'
-                activeClassName='header__link_active'
-              >
-                Фильмы
-              </NavLink>
-              <NavLink
-                to='/saved-movies'
-                className='header__link'
-                activeClassName='header__link_active'
-              >
-                Сохранённые фильмы
-              </NavLink>
-            </div>
-            <NavLink
-              to='/profile'
-              className='header__link'
-              activeClassName='header__link_active'
-            >
-              <Account nameUser={currentUser.name}/>
-            </NavLink>
-          </nav>
-        </header>
-      </Route>
-   </>
+    <header className={`header ${props.loggedIn ? "header_logged-in" : ''}`}>
+      <Logo />
+      <Navigation loggedIn={props.loggedIn} isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />
+    </header>
   );
 }
 
