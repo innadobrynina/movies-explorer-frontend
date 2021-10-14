@@ -21,30 +21,20 @@ function SearchForm(props) {
     props.onSubmit(searchValue, isShort);
   }
 
+  React.useEffect(() => {
+    if (searchValue) {
+      props.onSubmit(searchValue, isShort);
+    }
+    // eslint-disable-next-line
+  }, [isShort])
+
   return (
- <section className="search-form">
-      <form className="search-form__container" onSubmit={handleSubmit}>
-        <fieldset className="search-form__placeholder-group">
-          <div className="search-form__icon" />
-          <input
-            className="search-form__field"
-            placeholder="Фильм"
-            name="searchValue" 
-            id="searchValue" 
-            value={searchValue}
-            type="text"
-            required
-            onChange={handleSearchValueChange}
-          />
-        </fieldset>
-        <button
-          className="search-form__search-button"
-          type="submit"
-        />
-      </form>
-      <FilterCheckbox isShort={isShort} changeMoviesType={changeMoviesType}
-      />
-    </section>
+    <form className="search-form" onSubmit={handleSubmit}>
+    <input className="search-form__input" placeholder="Фильм" name="searchValue" id="searchValue" value={searchValue} onChange={handleSearchValueChange} />
+    <button className="search-form__submit-button" type="submit">Найти</button>
+    <FilterCheckbox isShort={isShort} changeMoviesType={changeMoviesType} />
+    <hr className="search-form__line" />
+  </form>
   );
 }
 

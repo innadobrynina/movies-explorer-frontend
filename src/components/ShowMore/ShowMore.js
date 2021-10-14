@@ -1,9 +1,10 @@
+import React from 'react';
 import './ShowMore.css';
 
-function ShowMore() {
+function ShowMore(props) {
   return(
-    <div className='more cards__more'>
-      <button className='more__button' type='button'>Ещё</button>
+    <div className="more">
+    {!props.isAllCardsRendered && <button className="more__button" onClick={() => props.renderCardList(props.countCardsOfWidth, props.cardList)}>Ещё</button>}
     </div>
   );
 }

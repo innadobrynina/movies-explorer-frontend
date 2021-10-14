@@ -108,32 +108,31 @@ function Register(props) {
 
   return (
   <div className="register">
-        <div className="register__content">
-          <Logo />
-          <h1 className="register__heading">Добро пожаловать!</h1>
-          <form className="register__form" onSubmit={handleSubmit}>
-            <div className="register__form-field">
-              <label className="register__form-label">Имя</label>
-              <input className={nameInputClassName} name="name" type="text" value={name} onChange={handleNameInputChange} required />
-              <p className="register__form-error">{nameError}</p>
-            </div>
-            <div className="register__form-field">
-              <label className="register__form-label">E-mail</label>
-              <input className={emailInputClassName} name="email" type="email" value={email} onChange={handleEmailInputChange} required />
-              <p className="register__form-error">{emailError}</p>
-            </div>
-            <div className="register__form-field">
-              <label className="register__form-label">Пароль</label>
-              <input className={passwordInputClassName} name="password" type="password" value={password} onChange={handlePasswordInputChange} required />
-              <p className="register__form-error">{passwordError}</p>
-            </div>
-            <button className="register__submit-button" type="submit" disabled={!isSubmitValid || props.isLoading}>Зарегистрироваться</button>
-          </form>
-          <p className="register__login">Уже зарегистрированы?
-          <Link className="register__login-link" to="/signin">Войти</Link></p>
+    <div className="register__content">
+            <Logo />
+            <h1 className="register__heading">Добро пожаловать!</h1>
+            <form className="register__form" onSubmit={handleSubmit}>
+              <div className="register__form-field">
+                <label className="register__form-label">Имя</label>
+                <input className={nameInputClassName} name="name" type="text" value={name} onChange={handleNameInputChange} required />
+                <p className="register__form-error">{nameError}</p>
+              </div>
+              <div className="register__form-field">
+                <label className="register__form-label">E-mail</label>
+                <input className={emailInputClassName} name="email" type="email" value={email} onChange={handleEmailInputChange} required />
+                <p className="register__form-error">{emailError}</p>
+              </div>
+              <div className="register__form-field">
+                <label className="register__form-label">Пароль</label>
+                <input className={passwordInputClassName} name="password" type="password" value={password} onChange={handlePasswordInputChange} required />
+                <p className="register__form-error">{passwordError}</p>
+              </div>
+              <button className="register__submit-button" type="submit" disabled={!isSubmitValid || props.isLoading}>Зарегистрироваться</button>
+            </form>
+            <p className="register__login">Уже зарегистрированы?<Link className="register__login-link" to="/signin">Войти</Link></p>
+          </div>
         </div>
-      </div>
-  );
-};
+  )
+}
 
 export default Register;

@@ -16,3 +16,13 @@
   font-size: 12px;
   width: 200px;
 }
+
+.more__button:hover {
+  background-color: #e8e8e8;
+}
+
+@media (max-width: 650px) {
+  .more {
+    padding: 50px 40px 80px;
+  }
+}

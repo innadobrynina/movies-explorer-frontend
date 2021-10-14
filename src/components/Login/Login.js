@@ -1,7 +1,7 @@
 import React from 'react';
-import './Login.css';
-import Logo from '../Logo/Logo';
 import { Link } from 'react-router-dom';
+import Logo from '../Logo/Logo';
+import './Login.css';
 import validator from 'validator';
 
 function Login(props) {

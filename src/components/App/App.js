@@ -279,7 +279,7 @@ function App(props) {
             onSearchMyMovies={handleSearchMyMovies}
           />
           
-          <Route path='*'>
+          <Route path='/'>
             <PageNotFound />
           </Route>
         </Switch>

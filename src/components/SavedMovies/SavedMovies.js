@@ -1,41 +1,39 @@
 import React from 'react';
-import './SavedMovies.css';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import MoviesApi from '../../utils/MoviesApi';
 
 function SavedMovies(props) {
 
-  const [cardList, setCardList] = React.useState([]);
-  const [isSearching, setIsSearching] = React.useState(false);
-
-  function search(searchValue) {
-    
-    setIsSearching(true);
-    MoviesApi.getMovies()
-      .then(movies => {
-        const regExp = new RegExp(searchValue.toLowerCase());
-        const filteredMovies = movies.filter((m) => regExp.test(m.nameRU.toLowerCase()))
-        setCardList(filteredMovies);
-      })
-      .catch(console.log)
-      .finally(() => setIsSearching(false))
-  }
-
-  function handleCardListChange(movies) {
-    setCardList(movies);
-  }
+  React.useEffect(() => {
+    props.initSavedMovies();
+    // eslint-disable-next-line
+  }, [props.savedMovies])
 
   return (
     <>
-      <Header />
-      <SearchForm  onSubmit={search}/>
-      <MoviesCardList isSearching={isSearching} cardList={cardList} handleCardListChange={handleCardListChange}/>
+      <Header loggedIn={props.loggedIn}/>
+      <SearchForm onSubmit={props.onSearchMyMovies}/>
+      <MoviesCardList
+        clearCardList={props.clearCardList}
+        renderedCardList={props.renderedCardList}
+        isAllCardsRendered={props.isAllCardsRendered}
+        countCardsOfWidth={props.countCardsOfWidth}
+        setRenderedCardList={props.setRenderedCardList}
+        setIsAllCardsRendered={props.setIsAllCardsRendered}
+        setCountCardsOfWidth={props.setCountCardsOfWidth}
+        isSearching={props.isSearching}
+        isResult={props.isResult}
+        cardList={props.cardList}
+        isNotFound={props.isNotFound}
+        onSaveMovie={props.onSaveMovie}
+        onUnsaveMovie={props.onUnsaveMovie}
+        savedMovies={props.savedMovies}
+      />
       <Footer />
     </>
-  );
+  )
 }
 
 export default SavedMovies;
