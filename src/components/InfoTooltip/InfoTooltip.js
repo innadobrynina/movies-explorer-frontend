@@ -11,7 +11,8 @@ function InfoTooltip(props) {
         <h2 className="popup__title popup__title_type_info">{props.message}</h2>
         <button className="popup__close-button" type="button" onClick={props.onClose}></button>
       </div>
-    </div>)
+    </div>
+  )
 };
 
 export default InfoTooltip;

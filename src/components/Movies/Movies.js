@@ -16,23 +16,25 @@ function Movies(props) {
   return (
     <>
         <Header loggedIn={props.loggedIn} />
-        <SearchForm onSubmit={props.onSearch}/>
-        <MoviesCardList 
-          clearCardList={props.clearCardList}
-          renderedCardList={props.renderedCardList}
-          isAllCardsRendered={props.isAllCardsRendered}
-          countCardsOfWidth={props.countCardsOfWidth}
-          setRenderedCardList={props.setRenderedCardList}
-          setIsAllCardsRendered={props.setIsAllCardsRendered}
-          setCountCardsOfWidth={props.setCountCardsOfWidth}
-          isSearching={props.isSearching}
-          isResult={props.isResult}
-          isNotFound={props.isNotFound}
-          cardList={props.cardList}
-          onSaveMovie={props.onSaveMovie}
-          onUnsaveMovie={props.onUnsaveMovie}
-          savedMovies={props.savedMovies}
-        />
+        <main className="movies">
+          <SearchForm onSubmit={props.onSearch}/>
+          <MoviesCardList 
+            clearCardList={props.clearCardList}
+            renderedCardList={props.renderedCardList}
+            isAllCardsRendered={props.isAllCardsRendered}
+            countCardsOfWidth={props.countCardsOfWidth}
+            setRenderedCardList={props.setRenderedCardList}
+            setIsAllCardsRendered={props.setIsAllCardsRendered}
+            setCountCardsOfWidth={props.setCountCardsOfWidth}
+            isSearching={props.isSearching}
+            isResult={props.isResult}
+            isNotFound={props.isNotFound}
+            cardList={props.cardList}
+            onSaveMovie={props.onSaveMovie}
+            onUnsaveMovie={props.onUnsaveMovie}
+            savedMovies={props.savedMovies}
+          />
+        </main>
         <Footer />
     </>
   );

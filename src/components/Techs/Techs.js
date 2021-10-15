@@ -1,6 +1,6 @@
 import './Techs.css';
 
-function Techs() {
+function Techs(props) {
     return (
         <section className="techs">
             <h3 className="techs__title">Технологии</h3>
@@ -16,7 +16,7 @@ function Techs() {
                 <li className="techs__list-item">mongoDB</li>
             </ul>
         </section>
-    );
+    )
   }
   
   export default Techs;

@@ -1,38 +1,50 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import './MoviesCard.css';
-import image from "../../images/pic1.png";
-import { Route } from "react-router-dom";
 
 
-function MoviesCard() {
+function MoviesCard(props) {
+  const [cardId, setCardId] = React.useState('');
+  const [isSaved, setIsSaved] = React.useState(false);
+
+  function handleSaveMovie() {
+    if (isSaved) {
+      setIsSaved(false);
+      props.onUnsaveMovie(cardId);
+    }
+    if (!isSaved) {
+      props.onSaveMovie(props.card);
+      setIsSaved(true);
+    }
+  }
+
+  function formatDuration(duration) {
+    const hours = (duration - (duration % 60)) / 60;
+    const minutes = duration - hours * 60;
+
+    return `${hours ? hours + 'ч' : ''} ${minutes ? minutes + 'м' : ''}`;
+  }
+
+  React.useEffect(() => {
+    setIsSaved(props.savedMovies.find(movie => movie.movieId === props.card.id || movie.movieId === props.card.movieId));
+    props.savedMovies.forEach(movie => {
+      if (movie.movieId === props.card.id || movie.movieId === props.card.movieId) setCardId(movie._id);
+    })
+
+    // eslint-disable-next-line
+  }, [props.cardList, props.savedMovies])
 
 return (
-    <figure className="movies-card">
-        <div className="movies-card-column">
-            <figcaption className="movies-card__figcaption">
-
-                <h3 className="movies-card__card-title">Название</h3>
-                <p className="movies-card__duration">Продолжительность</p>
-                
-            </figcaption>
-            <Route path='/movies'>
-            <div className="movies-card-block">
-                <button className="movies-card__like-button" type="button" />
-            </div>
-            </Route>
-            <Route path='/saved-movies'>
-            <div className="movies-card-block">
-                <button className="movies-card__delete-button" type="button" />
-            </div>
-            </Route>
+      <div className={`card ${isSaved ? "card_saved" : ''}`}>
+        <a className="card__poster" href={props.card.trailerLink ?? props.card.trailer} rel="noreferrer" target="_blank">
+          <img className="card__poster-img" src={props.card.image.url ? `https://api.indob-diploma.nomoreparties.co${props.card.image.url}` : props.card.image} alt={props.card.nameEN} />
+        </a>
+        <div className="card__info">
+          <h2 className="card__name">{props.card.nameRU}</h2>
+          <p className="card__duration">{formatDuration(props.card.duration)}</p>
         </div>
-      <a className="movies-card__link" href="" target="_blank" rel="noopener noreferrer">
-        <img className="movies-card__card" src={image} alt="фильм"/>
-      </a>
-    </figure>
-    
-  );
+        <button className="card__save-button" onClick={handleSaveMovie}>{!isSaved && "Сохранить"}</button>
+      </div>
+  )
 }
 
 export default MoviesCard;

@@ -1,12 +1,12 @@
 import './Footer.css';
 
-function Footer() {
+function Footer(props) {
   return (
     <footer className="footer">
       <div className="footer__container">
         <p className="footer__title">Учебный проект Яндекс.Практикум х BeatFilm</p>
         <div className="footer__wrap">
-          <p className="footer__copyright">© 2021</p>
+          <p className="footer__copyright">© {new Date().getFullYear()}</p>
           <ul className="footer__link-list">
             <li className="footer__link-item">
               <a href="https://practicum.yandex.ru" className="footer__link" target="_blank" rel="noopener noreferrer">Яндекс.Практикум</a>

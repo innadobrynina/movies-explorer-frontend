@@ -1,6 +1,5 @@
 import React from 'react';
 import { useLocation } from 'react-router';
-import MoviesApi from '../../utils/MoviesApi';
 import CardsNotFound from '../CardsNotFound/CardsNotFound';
 import Preloader from '../Preloader/Preloader';
 import './MoviesCardList.css';
@@ -9,21 +8,26 @@ import ShowMore from '../ShowMore/ShowMore';
 
 
 function MoviesCardList(props) {
-
-   const [renderedCardList, setRenderedCardList] = React.useState([]);
+  
+  const location = useLocation();
+  const [cardList, setCardList] = React.useState([]);
   const [isAllCardsRendered, setIsAllCardsRendered] = React.useState(false);
   const [countCardsOfWidth, setCountCardsOfWidth] = React.useState(0);
-
-  const location = useLocation();
 	
-  const renderCards = (cardsCount, renderedCards) => {
+  const renderCards = (card) => (
+    <MoviesCard key={card.id || card.movieId} card={card} cardId={card._id} onSaveMovie={props.onSaveMovie} onUnsaveMovie={props.onUnsaveMovie} cardList={cardList} savedMovies={props.savedMovies} />
+  )
+
+  function renderCardList(countCardsOfWidth, cardList) {
+    setIsAllCardsRendered(false);
+
     const cardsForRender = [];
 
-    const countCardsForRender = location.pathname === "/saved-movies" ? props.cardList?.length : cardsCount;
+    const countCardsForRender = location.pathname === "/saved-movies" ? props.cardList?.length : countCardsOfWidth;
 
     for (let i = 0; i < countCardsForRender; i++) {
-      const newCardIndex = i + renderedCards.length
-      const newCard = props.cardList[newCardIndex];
+      const newCardIndex = i + cardList.length
+      const newCard = props.cardList[newCardIndex] || 0;
 
       if (newCardIndex >= props.cardList.length - 1) {
         if (newCardIndex === props.cardList.length - 1) {
@@ -32,12 +36,19 @@ function MoviesCardList(props) {
         setIsAllCardsRendered(true);
         break;
     }
+
     cardsForRender.push(newCard);
   }
-  setRenderedCardList([...renderedCards, ...cardsForRender]);
+  
+  setCardList([...cardList, ...cardsForRender]);
   }
 
-function checkCountOfCards() {
+  React.useEffect(() => {
+    renderCardList(countCardsOfWidth, []);
+    // eslint-disable-next-line
+  }, [props.cardList])
+
+  function checkCountOfCards() {
     const width = window.innerWidth;
     if (width > 800) {
       setCountCardsOfWidth(3);
@@ -50,61 +61,47 @@ function checkCountOfCards() {
     }
   }
 
-
-  function clearCardList() {
-    setIsAllCardsRendered(false);
-    setRenderedCardList([]);
+  const checkCountOfCardsCallback = () => {
+    checkCountOfCards();
   }
 
   React.useEffect(() => {
-    window.addEventListener('resize', (e) => {
-      checkCountOfCards();
-    })
-
-    checkCountOfCards();
-    renderCards(countCardsOfWidth, renderedCardList);
-
-    if (location.pathname === '/saved-movies') {
-      MoviesApi.getMovies()
-        .then((movies) => props.handleCardListChange(movies))
-        .catch((err) => console.log(err))
-    }
-    // eslint-disable-next-line
-  }, []);
-
-  React.useEffect(() => {
-    clearCardList();
-    renderCards(countCardsOfWidth, []);
+    renderCardList(countCardsOfWidth, []);
     // eslint-disable-next-line
   }, [countCardsOfWidth]);
 
   React.useEffect(() => {
-    clearCardList();
-    renderCards(countCardsOfWidth, []);
-    // eslint-disable-next-line
-  }, [props.cardList])
+    if (cardList.length === 0) return setIsAllCardsRendered(true);
+  }, [cardList])
 
-    React.useEffect(() => {
-    if (props.isNotFound) {
-      setIsAllCardsRendered(true);
+  React.useEffect(() => {
+    window.addEventListener('resize', checkCountOfCardsCallback)
+
+    checkCountOfCards();
+
+    renderCardList(countCardsOfWidth, []);
+    setIsAllCardsRendered(false);
+
+    return () => {
+      window.removeEventListener('resize', checkCountOfCardsCallback)
     }
-  }, [props.isNotFound])
+
+    // eslint-disable-next-line
+  }, []);
 
   return (
       
-    <section className='cards movies__cards'>
+    <section className='movies__cards'>
       {props.isSearching && <Preloader />}
       {!props.isSearching && props.isNotFound && <CardsNotFound />}
-      {!props.isSearching && props.isNotFound &&
+      {!props.isSearching && props.isNotFound && props.isResult &&
         <>
         <ul className='cards-list'>
             {
-                renderedCardList.map((card) => {
-                  return <MoviesCard key={card.id} card={card} />
-                })
+                cardList.map(renderCards)
             }
         </ul>
-      <ShowMore renderCards={renderCards} isAllCardsRendered={isAllCardsRendered} countCardsOfWidth={countCardsOfWidth} renderedCardList={renderedCardList} />
+      <ShowMore renderCards={renderCardList} isAllCardsRendered={isAllCardsRendered} countCardsOfWidth={countCardsOfWidth} cardList={cardList} />
       </>
     }
     </section>

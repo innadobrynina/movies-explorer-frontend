@@ -35,7 +35,7 @@ function SearchForm(props) {
     <FilterCheckbox isShort={isShort} changeMoviesType={changeMoviesType} />
     <hr className="search-form__line" />
   </form>
-  );
+  )
 }
 
 export default SearchForm;
