@@ -60,7 +60,7 @@ class Auth {
 }
 
 const auth = new Auth({
-  baseUrl: 'https://api.indob-diploma.nomoredomains.club/'
+  baseUrl: 'https://api.indob-diploma.nomoredomains.club'
 })
 
 export default auth;

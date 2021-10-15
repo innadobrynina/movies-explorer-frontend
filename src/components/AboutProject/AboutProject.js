@@ -1,6 +1,6 @@
 import './AboutProject.css';
 
-function AboutProject() {
+function AboutProject(props) {
     return (
       <section className="about-project">
           <div className="about-project__container">

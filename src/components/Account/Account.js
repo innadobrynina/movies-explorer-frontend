@@ -2,7 +2,7 @@ import React from 'react';
 import './Account.css';
 import account from '../../images/account-logo.svg';
 
-function Account() {
+function Account(props) {
   return (
     <div className='account'>
       <p className='account__name'>Аккаунт</p>

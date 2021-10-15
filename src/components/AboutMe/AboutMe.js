@@ -1,7 +1,7 @@
 import './AboutMe.css';
 import avatar from '../../images/avatar.jpg';
 
-function AboutMe() {
+function AboutMe(props) {
   
   return (
     <section className="about">
