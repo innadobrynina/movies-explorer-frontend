@@ -10,7 +10,9 @@ class Api {
   }
 
   getSavedMovies() {
+    console.log('this._token', this._token);
     return fetch(`${this._baseUrl}/movies`, {
+      method: "GET",
       headers: {
         authorization: this._token,
         'Content-Type': 'application/json',
@@ -25,6 +27,7 @@ class Api {
         authorization: this._token,
         'Content-Type': 'application/json',
       },
+      credentials: 'include',
     })
       .then(this._checkResponse);
   }
@@ -84,7 +87,8 @@ class Api {
 }
 
 const mainApi = new Api({
-  baseUrl: 'https://api.indob-diploma.nomoredomains.club',
+  // baseUrl: 'https://api.indob-diploma.nomoredomains.club',
+  baseUrl: 'http://localhost:3001',
 })
 
 export default mainApi;

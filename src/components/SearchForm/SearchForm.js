@@ -7,11 +7,14 @@ function SearchForm(props) {
   const [searchValue, setSearchValue] = React.useState('');
   const [isShort, setIsShort] = React.useState(false);
 
-  function changeMoviesType() {
+  function changeMoviesType(e) {
     setIsShort(!isShort);
   }
 
   function handleSearchValueChange(e) {
+    e.preventDefault();
+    console.log("зашел", e.target.value);
+
     setSearchValue(e.target.value);
   }
 

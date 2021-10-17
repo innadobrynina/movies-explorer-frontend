@@ -29,12 +29,14 @@ class Auth {
       headers: {
         "Content-Type": "application/json"
       },
+      
       body: JSON.stringify({
         "email": data.email,
         "password": data.password,
       })
     })
       .then(this._checkResponse)
+      
   }
 
   signout(token) {
@@ -60,7 +62,8 @@ class Auth {
 }
 
 const auth = new Auth({
-  baseUrl: 'https://api.indob-diploma.nomoredomains.club'
+  // baseUrl: 'https://api.indob-diploma.nomoredomains.club'
+  baseUrl: 'http://localhost:3001',
 })
 
 export default auth;

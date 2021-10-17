@@ -9,7 +9,7 @@ class Api {
     return Promise.reject(`Ошибка ${res.status}`);
   }
 
-  getMovies() {
+  getMovie() {
     return fetch(this._baseUrl)
       .then(this._checkResponse)
   }

@@ -14,7 +14,7 @@ function MoviesCardList(props) {
   const [isAllCardsRendered, setIsAllCardsRendered] = React.useState(false);
   const [countCardsOfWidth, setCountCardsOfWidth] = React.useState(0);
 	
-  const renderCards = (card) => (
+  const renderItem = (card) => (
     <MoviesCard key={card.id || card.movieId} card={card} cardId={card._id} onSaveMovie={props.onSaveMovie} onUnsaveMovie={props.onUnsaveMovie} cardList={cardList} savedMovies={props.savedMovies} />
   )
 
@@ -98,10 +98,10 @@ function MoviesCardList(props) {
         <>
         <ul className='cards-list'>
             {
-                cardList.map(renderCards)
+                cardList.map(renderItem)
             }
         </ul>
-      <ShowMore renderCards={renderCardList} isAllCardsRendered={isAllCardsRendered} countCardsOfWidth={countCardsOfWidth} cardList={cardList} />
+      <ShowMore renderItem={renderCardList} isAllCardsRendered={isAllCardsRendered} countCardsOfWidth={countCardsOfWidth} cardList={cardList} />
       </>
     }
     </section>

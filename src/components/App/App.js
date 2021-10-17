@@ -64,6 +64,7 @@ function App(props) {
   }
 
   function handleAuth(token) {
+    console.log('token', token);
     const requestedPathname = location.pathname;
     auth.getEmail(token)
       .then((res) => {
@@ -71,15 +72,20 @@ function App(props) {
         setLoggedIn(true);
         mainApi.changeToken(token);
         setCurrentUser(res.user);
+        console.log('res',res);
         if (requestedPathname === '/signin' || requestedPathname === '/signup') props.history.push('/movies')
         else props.history.push(requestedPathname);
-        mainApi.getSavedMovies()
-          .then((movies) => {
+        mainApi.getSavedMovies(token)
+          /* .then((movies) => {
             const filteredMovies = movies.movies.filter((movie) => movie.owner === res.user._id);
+            console.log('movie.owner', res.user._id);
             setSavedMovies(filteredMovies);
-          })
+          }) */
+          .then((favouriteMovies) => {
+            setSavedMovies(favouriteMovies);
       })
       .catch(err => handleError(err));
+    });
   }
 
   function uploadLocalStorage() {
@@ -212,7 +218,7 @@ function App(props) {
     handleTokenCheck();
 
     setIsSearching(true);
-    moviesApi.getMovies()
+    moviesApi.getMovie()
       .then(movies => {
         setInitCardList(movies);
       })
