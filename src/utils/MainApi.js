@@ -60,7 +60,7 @@ class Api {
         duration: data.duration,
         year: data.year,
         description: data.description,
-        image: data.image.url ? `https://api.indob-diploma.nomoreparties.co${data.image.url}` : data.image,
+        image: data.image.url ? `https://api.nomoreparties.co${data.image.url}` : data.image,
         trailer: data.trailerLink ? data.trailerLink : 'https://yandex.ru',
         thumbnail: data.trailerLink ? data.trailerLink : 'https://yandex.ru',
         movieId: data.id || data.movieId,
@@ -87,8 +87,8 @@ class Api {
 }
 
 const mainApi = new Api({
-  // baseUrl: 'https://api.indob-diploma.nomoredomains.club',
-  baseUrl: 'http://localhost:3001',
+  baseUrl: 'https://api.indob-diploma.nomoredomains.club',
+  //baseUrl: 'http://localhost:3001',
 })
 
 export default mainApi;
