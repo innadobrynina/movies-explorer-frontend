@@ -87,8 +87,8 @@ class Api {
 }
 
 const mainApi = new Api({
-  baseUrl: 'https://api.indob-diploma.nomoredomains.club',
-  // baseUrl: 'http://localhost:3001',
+  // baseUrl: 'https://api.indob-diploma.nomoredomains.club',
+  baseUrl: 'http://localhost:3001',
 })
 
 export default mainApi;

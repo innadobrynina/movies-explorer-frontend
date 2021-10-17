@@ -62,8 +62,8 @@ class Auth {
 }
 
 const auth = new Auth({
-  baseUrl: 'https://api.indob-diploma.nomoredomains.club'
-  // baseUrl: 'http://localhost:3001',
+  // baseUrl: 'https://api.indob-diploma.nomoredomains.club'
+  baseUrl: 'http://localhost:3001',
 })
 
 export default auth;
