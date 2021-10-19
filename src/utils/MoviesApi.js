@@ -10,20 +10,19 @@ class Api {
   }
 
   getMovie() {
-    return fetch(`${this._baseUrl}`, {
+    return fetch(this._baseUrl)/* , {
       method: 'GET',
-      headers: this._headers,
-      credentials: 'include',
-    })
+      headers: this._headers
+    }) */
       .then(this._checkResponse)
   }
 }
 
 const moviesApi = new Api({
   baseMovieUrl: 'https://api.nomoreparties.co/beatfilm-movies',
-  headers: {
+  /* headers: {
     'Content-Type': 'application/json',
-  },
+  }, */
 })
 
 export default moviesApi;
