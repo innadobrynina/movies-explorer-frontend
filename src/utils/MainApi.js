@@ -27,7 +27,6 @@ class Api {
         authorization: this._token,
         'Content-Type': 'application/json',
       },
-      credentials: 'include',
     })
       .then(this._checkResponse);
   }
