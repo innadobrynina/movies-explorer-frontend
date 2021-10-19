@@ -10,10 +10,8 @@ class Api {
   }
 
   getSavedMovies() {
-    console.log('this._token', this._token);
     return fetch(`${this._baseUrl}/movies`, {
-      method: "GET",
-      headers: {
+        headers: {
         authorization: this._token,
         'Content-Type': 'application/json',
       }
