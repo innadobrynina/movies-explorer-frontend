@@ -85,8 +85,8 @@ class MainApi {
 };
 
 const mainApi = new MainApi({
-  //   baseUrl: 'https://api.indob-diploma.nomoredomains.club',
-baseUrl: 'http://localhost:3000',
+baseUrl: 'https://api.indob-diploma.nomoredomains.club',
+  //   baseUrl: 'http://localhost:3000',
 });
 
 export default mainApi;
