@@ -1,41 +1,17 @@
-import React from 'react';
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
+import './SavedMovies.css';
 
-function SavedMovies(props) {
-
-  React.useEffect(() => {
-    props.initSavedMovies();
-    // eslint-disable-next-line
-  }, [props.savedMovies])
+const SavedMovies = ({ movies, handleSearchSubmit, handleTumblerClick, saveMovie, deleteMovie, isFound, isRequestDone, isDisabled }) => {
 
   return (
-    <>
-      <Header loggedIn={props.loggedIn}/>
-      <main className="saved-movies">
-        <SearchForm onSubmit={props.onSearchMyMovies}/>
-          <MoviesCardList
-            clearCardList={props.clearCardList}
-            renderedCardList={props.renderedCardList}
-            isAllCardsRendered={props.isAllCardsRendered}
-            countCardsOfWidth={props.countCardsOfWidth}
-            setRenderedCardList={props.setRenderedCardList}
-            setIsAllCardsRendered={props.setIsAllCardsRendered}
-            setCountCardsOfWidth={props.setCountCardsOfWidth}
-            isSearching={props.isSearching}
-            isResult={props.isResult}
-            cardList={props.cardList}
-            isNotFound={props.isNotFound}
-            onSaveMovie={props.onSaveMovie}
-            onUnsaveMovie={props.onUnsaveMovie}
-            savedMovies={props.savedMovies}
-          />
-      </main>
-      <Footer />
-    </>
-  )
-}
+    <section className="saved-movies">
+      <SearchForm handleSearchSubmit={handleSearchSubmit} handleTumblerClick={handleTumblerClick} isDisabled={isDisabled}/>
+      <MoviesCardList movieList={movies} isOnSavedPage={true} saveMovie={saveMovie} deleteMovie={deleteMovie}
+        isFound={isFound} isRequestDone={isRequestDone} />
+    </section>
+
+  );
+};
 
 export default SavedMovies;

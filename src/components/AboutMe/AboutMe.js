@@ -1,13 +1,13 @@
 import './AboutMe.css';
+import Info from '../Info/Info';
 import avatar from '../../images/avatar.jpg';
 
-function AboutMe(props) {
+const AboutMe = () => {
   
   return (
+    <Info title="Студент" linkId="about-student" type="student" content="Информация о студенте.">
     <section className="about">
       <div className="about__container">
-        <h2 id="Студент" className="about__title">Студент</h2>
-
         <div className="about__wrap">
           <div className="about__column about__column_person">
             <h3 className="about__name">Инна</h3>
@@ -25,10 +25,13 @@ function AboutMe(props) {
           <div className="about__column about__column_avatar">
             <img className="about__avatar" src={avatar} alt="Аватар"/>
           </div>
+          
         </div>
 
       </div>
-    </section>
+      </section>
+      </Info>
+    
   );
 }
 

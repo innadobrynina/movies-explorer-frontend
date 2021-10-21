@@ -1,44 +1,50 @@
-import React from 'react';
+import { useState } from 'react';
+import { useFormWithValidation } from '../../utils/useFormWithValidation';
 import './SearchForm.css';
-import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
+import find from '../../images/find.svg';
 
-function SearchForm(props) {
+const SearchForm = ({ handleSearchSubmit, handleTumblerClick, isDisabled }) => {
+  
+  const { values, handleChange, errors, isValid } = useFormWithValidation({});
+  const [isChecked, setIsChecked] = useState(false);
 
-  const [searchValue, setSearchValue] = React.useState('');
-  const [isShort, setIsShort] = React.useState(false);
-
-  function changeMoviesType(e) {
-    setIsShort(!isShort);
-  }
-
-  function handleSearchValueChange(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("зашел", e.target.value);
-
-    setSearchValue(e.target.value);
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    props.onSubmit(searchValue, isShort);
-  }
-
-  React.useEffect(() => {
-    if (searchValue) {
-      props.onSubmit(searchValue, isShort);
+    if (isValid) {
+      handleSearchSubmit(values.movie, isChecked); 
     }
-    // eslint-disable-next-line
-  }, [isShort])
+  }
+
+    //запись в стейт текущие значения инпутов при вводе
+    const handleCheckboxChange = (e) => {
+      setIsChecked(e.target.checked);
+      handleTumblerClick(e.target.checked, values.movie);
+  }
 
   return (
-    <form className="search-form" onSubmit={handleSubmit}>
-    <input className="search-form__input" placeholder="Фильм" name="searchValue" id="searchValue" value={searchValue} onChange={handleSearchValueChange} />
-    <button className="search-form__submit-button" type="submit">Найти</button>
-    <FilterCheckbox isShort={isShort} changeMoviesType={changeMoviesType} />
-    <hr className="search-form__line" />
-  </form>
-  )
-}
+    <div className="search">
+      <form className="search__form" onSubmit={handleSubmit} noValidate>
+       <div className="search__form-block"> 
+        <input className={`search__input ${errors && errors["movie"] && 'search__input_type_error'}`} 
+        placeholder="Фильм" required onChange={handleChange} name="movie" type="text" disabled={isDisabled}></input>
+        <span className="search__input-error">
+          {errors && errors["movie"] && errors["movie"]}
+        </span>
+        <button type="submit" className="search__button" disabled={!isValid}><img className="search__button-img" src={find} alt='кнопка' /></button>
+      </div>
+      <div className="search__form-block2">
+      <label className="search__tumbler">
+        <input type="checkbox" name="shortFilmCheckbox" className="search__checkbox"
+          checked={isChecked} onChange={handleCheckboxChange} disabled={isDisabled}></input>
+        <span className="search__slider"></span>
+        
+      </label>
+      <p className="search__label-text">Короткометражки</p>
+      </div>
+      </form>
+    </div>
+
+  );
+};
 
 export default SearchForm;

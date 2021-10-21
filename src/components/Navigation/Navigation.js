@@ -1,41 +1,49 @@
-import React from 'react';
-import { NavLink as Link} from 'react-router-dom';
+import { useState } from 'react';
+import { NavLink as Link } from 'react-router-dom';
 import account from '../../images/account-logo.svg'
 import './Navigation.css';
 
-function Navigation(props) {
+const Navigation = ({ handleOnSavedMoviesClick, handleOnMoviesClick }) => {
+  const [isMoviesClicked, setIsMoviesClicked] = useState(false);
+  const [isSavedMoviesClicked, setIsSavedMoviesClicked] = useState(false);
+  const [isMainClicked, setIsMainClicked] = useState(false);
 
+  const handleMoviesClick = () => {
+    handleOnMoviesClick();
+    setIsMoviesClicked(true);
+    setIsSavedMoviesClicked(false);
+    setIsMainClicked(false);
+  }
+
+  const handleSavedMoviesClick = () => {
+    handleOnSavedMoviesClick();
+    setIsSavedMoviesClicked(true);
+    setIsMoviesClicked(false);
+    setIsMainClicked(false);
+  }
+
+  const handleMainClicked = () => {
+    setIsMainClicked(true);
+    setIsSavedMoviesClicked(false);
+    setIsMoviesClicked(false);
+  }
   return (
-    <>
-      {
-        props.loggedIn ?
-          (
-            <nav className={`nav ${props.isMenuOpen ? 'nav_open' : ''} nav_with-menu`}>
-              <div className="nav__burger-icon" onClick={props.toggleMenu}></div>
-              <div className="nav__overlay"></div>
-              <div className="nav__menu">
-                <ul className="nav__links">
-                  <li className="nav__item"><Link className="nav__link nav__link_to_main" exact to="/" activeClassName="nav__link_active">Главная</Link></li>
-                  <li className="nav__item"><Link className="nav__link nav__link_to_movies" to="/movies" activeClassName="nav__link_active">Фильмы</Link></li>
-                  <li className="nav__item"><Link className="nav__link nav__link_to_saved-movies" to="/saved-movies" activeClassName="nav__link_active">Сохранённые фильмы</Link></li>
-                </ul>
-                <Link className="nav__link nav__link_to_my-account" to="/profile">Аккаунт
-                <img className="nav__link_to_my-account-img" src={account} alt="account"/> </Link>
-                <div className="nav__close-button" onClick={props.toggleMenu}></div>
-              </div>
-            </nav>
-          ) : (
-            <nav className="nav">
-              <div className="nav__menu">
-                <ul className="nav__links">
-                  <li className="nav__item"><Link className="nav__link nav__link_to_signup" to="/signup">Регистрация</Link></li>
-                  <li className="nav__item"><Link className="nav__link nav__link_to_signin" to="/signin">Войти</Link></li>
-                </ul>
-              </div>
-            </nav>
-          )
-      }
-    </>
+    <nav className="nav">
+      <div className="nav__options">
+        <Link to="/" className={`nav__link nav__link_type_main ${isMainClicked && 'nav__link_active'}`}
+          onClick={handleMainClicked}>Главная</Link>
+        <div className="nav__movies">
+          <Link to="/movies" className={`nav__link ${isMoviesClicked && 'nav__link_active'}`}
+            onClick={handleMoviesClick}>Фильмы</Link>
+          <Link to="/saved-movies" className={`nav__link ${isSavedMoviesClicked && 'nav__link_active'}`}
+            onClick={handleSavedMoviesClick}>Сохраненные фильмы</Link>
+        </div>
+        <Link to="/profile" className="nav__account">
+          Аккаунт
+          <img className="nav__account-img" src={account} alt="Аккаунт" />
+        </Link>
+      </div>
+    </nav>
   )
 }
 

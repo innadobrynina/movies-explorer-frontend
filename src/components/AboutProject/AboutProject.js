@@ -1,10 +1,11 @@
 import './AboutProject.css';
+import Info from '../Info/Info';
 
-function AboutProject(props) {
+const AboutProject = () => {
     return (
+      <Info title="О проекте" linkId="about-project" type="project" content="Информация о проекте.">
       <section className="about-project">
           <div className="about-project__container">
-              <h2 className="about-project__title">О проекте</h2>
               <div className="about-project__info">
                 <div className="about-project__column">
                     <h3 className="about-project__column-title">Дипломный проект включал 5 этапов</h3>
@@ -23,6 +24,7 @@ function AboutProject(props) {
               </div>     
           </div>
       </section>
+      </Info>
     );
   }
   

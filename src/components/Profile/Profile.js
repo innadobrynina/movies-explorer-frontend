@@ -1,120 +1,52 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { NavLink as Link } from 'react-router-dom';
 import './Profile.css';
-import Header from '../Header/Header';
-import CurrentUserContext from '../../contexts/CurrentUserContext';
-import validator from 'validator';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import { useFormWithValidation } from '../../utils/useFormWithValidation';
 
-function Profile(props) {
-  const currentUser = React.useContext(CurrentUserContext);
+const Profile = ({ handleLogout, handleSubmit, isDisabled }) => {
+  const currentUser = useContext(CurrentUserContext);
 
-  const [name, setName] = React.useState(currentUser.name);
-  const [email, setEmail] = React.useState(currentUser.email);
+  const { values, handleChange, errors, isValid } = useFormWithValidation({
+    name: currentUser.name,
+    email: currentUser.email
+  });
 
-  // Validation Constants
-  const [isNameError, setIsNameError] = React.useState(false);
-  const [isEmailError, setIsEmailError] = React.useState(false);
-  const [isSubmitValid, setIsSubmitValid] = React.useState(false);
-
-  function handleChangeName(e) {
-    if (props.isEdit) {
-      setName(e.target.value);
-      handleValidation(e);
-    }
-  }
-
-  function handleChangeEmail(e) {
-    if (props.isEdit) {
-      setEmail(e.target.value);
-      handleValidation(e);
-    }
-  }
-
-  const inputNameClassName = (
-    `profile__field-value ${props.isEdit ? "profile__field-value_edit" : ''} ${isNameError ? "profile__field-value_error" : ""}`
-  );
-
-  const inputEmailClassName = (
-    `profile__field-value ${props.isEdit ? "profile__field-value_edit" : ''} ${isEmailError ? "profile__field-value_error" : ""}`
-  )
-
-  function handleValidation(e) {
-    const inputElement = e.target;
-
-    switch (inputElement.name) {
-      case 'name': {
-        if (!inputElement.validity.valid) {
-          setIsNameError(true);
-          return;
-        }
-        setIsNameError(false);
-        break;
-      }
-      case 'email': {
-        if (!inputElement.validity.valid || !validator.isEmail(inputElement.value)) {
-          setIsEmailError(true);
-          return;
-        }
-        setIsEmailError(false);
-        break;
-      }
-      default: { }
-    }
-  }
-
-  function handleSubmit(e) {
+  const onSubmit = (e) => {
     e.preventDefault();
-
-    if (!props.isEdit) props.changeIsEdit(true);
-
-    if (props.isEdit) {
-      props.onUserUpdate({
-        name,
-        email,
-      })
-      setName(currentUser.name);
-      setEmail(currentUser.email);
+    if (isValid) {
+      handleSubmit(values);
     }
   }
-
-  function handleLogout(e) {
-    e.preventDefault();
-
-    props.onLogout();
-  }
-
-  React.useEffect(() => {
-    setName(currentUser.name);
-    setEmail(currentUser.email);
-  }, [currentUser])
-
-  React.useEffect(() => {
-    if (name === currentUser.name && email === currentUser.email) return setIsSubmitValid(false);
-    else if (!isNameError && !isEmailError) return setIsSubmitValid(true);
-    return setIsSubmitValid(false);
-  }, [name, email, currentUser, isNameError, isEmailError])
 
   return (
-    <>
-      <Header loggedIn={props.loggedIn} />
-      <div className="profile">
-        <h1 className="profile__greeting">Привет, {currentUser.name}</h1>
-        <form className="profile__content" onSubmit={handleSubmit}>
-          <div className="profile__info">
-            <div className="profile__field">
-              <h2 className="profile__field-name">Имя</h2>
-              <input className={inputNameClassName} onChange={handleChangeName} type="text" name="name" value={name} disabled={!props.isEdit} required />
-            </div>
-            <hr className="profile__line" />
-            <div className="profile__field">
-              <h2 className="profile__field-name">E-mail</h2>
-              <input className={inputEmailClassName} onChange={handleChangeEmail} type="email" name="email" value={email} disabled={!props.isEdit} required />
-            </div>
+    <div className="profile">
+      <form className="profile__form" method="POST" onSubmit={onSubmit} noValidate>
+        <h3 className="profile__greeting">Привет, {currentUser.name} !</h3>
+        <div className="profile__inputs">
+          <p className="profile__text profile__text_type_name">Имя</p>
+          <div className="profile__area profile__area_type_name">
+            <input className="profile__input profile__input_type_name" placeholder="Имя" id="name-input"
+              name="name" onChange={handleChange} value={values.name} minLength="2" maxLength="30" required disabled={isDisabled}></input>
+            <span className="profile__input-error" id="name-input-error">
+              {errors && errors["name"] !== "" && errors["name"]}
+            </span>
           </div>
-          <button className="profile__edit-button" type="submit" disabled={props.isEdit ? !isSubmitValid || props.isLoading : false}>{props.isEdit ? props.isLoading ? "Загрузка..." : "Сохранить" : "Редактировать"}</button>
-          <button className="profile__exit-button" onClick={handleLogout}>Выйти из аккаунта</button>
-        </form>
-      </div>
-    </>
+          <div className="profile__area profile__area_type_email">
+            <input className="profile__input profile__input_type_email" type="email" placeholder="Почта"
+              id="email-input" name="email" onChange={handleChange} value={values.email} required disabled={isDisabled}
+              pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[a-z]{2,})\b"></input>
+            <span className="profile__input-error" id="email-input-error">
+              {errors && errors["email"] !== "" && errors["email"]}
+            </span>
+          </div>
+          <p className="profile__text profile__text_type_email">Почта</p>
+        </div>
+        <button type="submit" className="profile__button" disabled={!isValid}>Редактировать</button>
+        <Link to="/" className="profile__link" onClick={handleLogout}>Выйти из аккаунта</Link>
+      </form>
+    </div>
+
   );
 }
 

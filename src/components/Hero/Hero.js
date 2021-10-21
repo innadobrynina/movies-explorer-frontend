@@ -5,7 +5,7 @@ import Promo from "../Promo/Promo";
 function Hero(props) {
   return (
     <div className="hero">
-      <Header loggedIn={props.loggedIn} />
+      <Header isLoggedIn={props.isLoggedIn} />
       <Promo />
     </div>
   )

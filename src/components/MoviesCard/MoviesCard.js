@@ -1,50 +1,48 @@
-import React from "react";
+import { useContext } from 'react';
+import { convertMinToHours } from '../../utils/utils';
+/* import { BASE_URL_MOVIE } from '../../utils/MoviesApi'; */
 import './MoviesCard.css';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
+const MoviesCard = ({ movie, image, nameRU, duration, isOnSavedPage, saveMovie, deleteMovie }) => {
+  const currentUser = useContext(CurrentUserContext);
+  const isSaved = movie.owner && movie.owner === currentUser._id;
 
-function MoviesCard(props) {
-  const [cardId, setCardId] = React.useState('');
-  const [isSaved, setIsSaved] = React.useState(false);
-
-  function handleSaveMovie() {
+  const handleSaveBtnClick = () => {
     if (isSaved) {
-      setIsSaved(false);
-      props.onUnsaveMovie(cardId);
-    }
-    if (!isSaved) {
-      props.onSaveMovie(props.card);
-      setIsSaved(true);
+      deleteMovie(movie._id, movie);
+    } else {
+      saveMovie(movie);
     }
   }
-
-  function formatDuration(duration) {
-    const hours = (duration - (duration % 60)) / 60;
-    const minutes = duration - hours * 60;
-
-    return `${hours ? hours + 'ч' : ''} ${minutes ? minutes + 'м' : ''}`;
+  const handleDeleteBtnClick = () => {
+    deleteMovie(movie._id, movie);
   }
 
-  React.useEffect(() => {
-    setIsSaved(props.savedMovies.find(movie => movie.movieId === props.card.id || movie.movieId === props.card.movieId));
-    props.savedMovies.forEach(movie => {
-      if (movie.movieId === props.card.id || movie.movieId === props.card.movieId) setCardId(movie._id);
-    })
+  const saveButtonClassName = (
+    `movies-card__button movies-card__button_type_save ${isSaved && 'movies-card__button_type_clicked-save'}`
+  );
 
-    // eslint-disable-next-line
-  }, [props.cardList, props.savedMovies])
-
-return (
-      <div className={`card ${isSaved ? "card_saved" : ''}`}>
-        <a className="card__poster" href={props.card.trailerLink ?? props.card.trailer} rel="noreferrer" target="_blank">
-          <img className="card__poster-img" src={props.card.image.url ? `https://api.indob-diploma.nomoreparties.co${props.card.image.url}` : props.card.image} alt={props.card.nameEN} />
-        </a>
-        <div className="card__info">
-          <h2 className="card__name">{props.card.nameRU}</h2>
-          <p className="card__duration">{formatDuration(props.card.duration)}</p>
+  return (
+    <li className="movies-card">
+      <div className="movies-card__content">
+        <div className="movies-card__info">
+          <p className="movies-card__title">{nameRU}</p>
+          <p className="movies-card__duration">{convertMinToHours(duration)}</p>
         </div>
-        <button className="card__save-button" onClick={handleSaveMovie}>{!isSaved && "Сохранить"}</button>
+      {
+        isOnSavedPage ?
+          <button type="button" className="movies-card__button movies-card__button_type_delete"
+            aria-label="Удалить фильм." onClick={handleDeleteBtnClick}></button> :
+          <button type="button" className={saveButtonClassName} onClick={handleSaveBtnClick} aria-label="Сохранить фильм."></button>
+      }
       </div>
-  )
-}
+      {/* <a className="movies-card__image-link" href={movie.trailer} target="_blank" rel="noreferrer">
+          <div className="movies-card__image" style={{ background: `center/cover url(${(isSaved && image) ? image : BASE_URL_MOVIE + image.url}) no-repeat` }}></div>
+        </a> */}
+        <a className="movies-card__image-link" href={movie.trailer} target="_blank" rel="noreferrer"><img className="movies-card__image" src={movie.image} alt={movie.nameRU} /></a>
+    </li>
+  );
+};
 
 export default MoviesCard;

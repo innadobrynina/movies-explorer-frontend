@@ -1,42 +1,21 @@
-import React from 'react';
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
+import './Movies.css';
 
-function Movies(props) {
+const Movies = ({ movies, handleSearchSubmit, handleTumblerClick, saveMovie, deleteMovie, isFound,
+  isRequestDone, amountToRender, handleMoreBtnClick, isMoreBtnVisible, isLoading, isDisabled }) => {
   
-  React.useEffect(() => {
-    props.clearCardList();
-    props.uploadLocalStorage();
-
-    // eslint-disable-next-line
-  }, [])
+    const onMoreBtnClick = () => {
+      handleMoreBtnClick(amountToRender);
+    }
 
   return (
-    <>
-        <Header loggedIn={props.loggedIn} />
-        <main className="movies">
-          <SearchForm onSubmit={props.onSearch}/>
-          <MoviesCardList 
-            clearCardList={props.clearCardList}
-            renderedCardList={props.renderedCardList}
-            isAllCardsRendered={props.isAllCardsRendered}
-            countCardsOfWidth={props.countCardsOfWidth}
-            setRenderedCardList={props.setRenderedCardList}
-            setIsAllCardsRendered={props.setIsAllCardsRendered}
-            setCountCardsOfWidth={props.setCountCardsOfWidth}
-            isSearching={props.isSearching}
-            isResult={props.isResult}
-            isNotFound={props.isNotFound}
-            cardList={props.cardList}
-            onSaveMovie={props.onSaveMovie}
-            onUnsaveMovie={props.onUnsaveMovie}
-            savedMovies={props.savedMovies}
-          />
-        </main>
-        <Footer />
-    </>
+    <section className="movies">
+      <SearchForm handleSearchSubmit={handleSearchSubmit} handleTumblerClick={handleTumblerClick} isDisabled={isDisabled} />
+      <MoviesCardList movieList={movies} isOnSavedPage={false} saveMovie={saveMovie} deleteMovie={deleteMovie}
+        isFound={isFound} isRequestDone={isRequestDone} amountToRender={amountToRender} isLoading={isLoading} />
+      {isMoreBtnVisible && <button className="movies__more-btn" type="button" onClick={onMoreBtnClick}>Ещё</button>}
+    </section>
   );
 }
 

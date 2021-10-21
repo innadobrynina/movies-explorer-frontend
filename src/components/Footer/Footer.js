@@ -1,8 +1,12 @@
 import './Footer.css';
 
-function Footer(props) {
+const Footer = ({ pathname }) => {
+  const footerClassName = (
+    `footer
+    ${(pathname === '/movies' || pathname === '/saved-movies' || pathname === '/profile') && 'footer_visible'}`
+  )
   return (
-    <footer className="footer">
+    <footer className={footerClassName}>
       <div className="footer__container">
         <p className="footer__title">Учебный проект Яндекс.Практикум х BeatFilm</p>
         <div className="footer__wrap">

@@ -1,91 +1,92 @@
-class Api {
-  constructor({ baseUrl, authorization }) {
-    this._baseUrl = baseUrl;
-    this._token = authorization;
+import { BASE_URL_MOVIE } from "./MoviesApi";
+import { defaultProp } from './constants';
+class MainApi {
+  constructor(options) {
+    this.baseUrl = options.baseUrl;
   }
 
-  _checkResponse(res) {
+  _getResponseData(res) {
     if (res.ok) return res.json();
-    return Promise.reject(`Ошибка ${res.status}`);
+    return Promise.reject(new Error(`Ошибка ${res.status}`));
   }
 
-  getSavedMovies() {
-    return fetch(`${this._baseUrl}/movies`, {
-        headers: {
-        authorization: this._token,
-        'Content-Type': 'application/json',
+  getMovies(jwt) {
+    return fetch(`${this.baseUrl}/movies`, {
+      headers: {
+        authorization: `Bearer ${jwt}`,
+        'Content-Type': 'application/json'
       }
-    })
-      .then(this._checkResponse)
+    }).then((res) => this._getResponseData(res));
   }
 
-  getProfileInfo() {
-    return fetch(`${this._baseUrl}/users/me`, {
+  getMe(jwt) {
+    return fetch(`${this.baseUrl}/users/me`, {
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${jwt}`,
         'Content-Type': 'application/json',
       },
     })
-      .then(this._checkResponse);
+      .then((res) => this._getResponseData(res));
   }
 
-  setProfileInfo(data) {
-    return fetch(`${this._baseUrl}/users/me`, {
-      method: 'PATCH',
+ saveMovie(jwt, movie) {
+    return fetch(`${this.baseUrl}/movies`, {
       headers: {
-        authorization: this._token,
-        'Content-Type': 'application/json',
+        authorization: `Bearer ${jwt}`,
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        name: data.name,
-        email: data.email,
-      }),
-    })
-      .then(this._checkResponse);
-  }
-
-  saveMovie(data) {
-    return fetch(`${this._baseUrl}/movies`, {
       method: 'POST',
-      headers: {
-        authorization: this._token,
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify({
-        country: data.country,
-        director: data.director,
-        duration: data.duration,
-        year: data.year,
-        description: data.description,
-        image: data.image.url ? `https://api.nomoreparties.co${data.image.url}` : data.image,
-        trailer: data.trailerLink ? data.trailerLink : 'https://yandex.ru',
-        thumbnail: data.trailerLink ? data.trailerLink : 'https://yandex.ru',
-        movieId: data.id || data.movieId,
-        nameRU: data.nameRU,
-        nameEN: data.nameEN,
-      }),
+        country: movie.country ? movie.country : defaultProp, 
+        director: movie.director ? movie.director : defaultProp, 
+        duration: movie.duration ? movie.duration : 0, 
+        year: movie.year ? movie.year : 0, 
+        description: movie.description ? movie.description : defaultProp, 
+        image: movie.image.url ? BASE_URL_MOVIE + movie.image.url : movie.image, 
+        trailer: movie.trailer ? movie.trailer : movie.trailerLink, 
+        nameRU: movie.nameRU ? movie.nameRU : defaultProp, 
+        nameEN: movie.nameEN ? movie.nameEN : defaultProp, 
+        thumbnail: movie.thumbnail ? movie.thumbnail : BASE_URL_MOVIE + movie.image.formats.thumbnail.url, 
+        movieId: movie.id
+      })
     })
-      .then(this._checkResponse);
+      .then((res) => this._getResponseData(res));
   }
 
-  unsaveMovie(movieId) {
-    return fetch(`${this._baseUrl}/movies/${movieId}`, {
-      method: 'DELETE',
+  deleteMovieFromSaved(jwt, movieId) {
+    return fetch(`${this.baseUrl}/movies/${movieId}`, {
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${jwt}`,
+        'Content-Type': 'application/json'
       },
+      method: 'DELETE',
     })
-      .then(this._checkResponse);
+      .then((res) => this._getResponseData(res));
   }
 
-  changeToken(token) {
-    this._token = `Bearer ${token}`
+  toggleMovieSave(jwt, movie, movieId, isSaved) {
+    return isSaved ? this.deleteMovieFromSaved(jwt, movieId) : this.saveMovie(jwt, movie);
   }
-}
 
-const mainApi = new Api({
-  baseUrl: 'https://api.indob-diploma.nomoredomains.club',
-  //baseUrl: 'http://localhost:3001',
-})
+  getProfileInfo(jwt, email, name) {
+    return fetch(`${this.baseUrl}/users/me`, {
+      headers: {
+        authorization: `Bearer ${jwt}`,
+        'Content-Type': 'application/json'
+      },
+      method: 'PATCH',
+      body: JSON.stringify({
+        email,
+        name
+      })
+    })
+      .then((res) => this._getResponseData(res));
+  }
+};
+
+const mainApi = new MainApi({
+  // baseUrl: 'https://api.indob-diploma.nomoredomains.club',
+  baseUrl: 'http://localhost:3000',
+});
 
 export default mainApi;

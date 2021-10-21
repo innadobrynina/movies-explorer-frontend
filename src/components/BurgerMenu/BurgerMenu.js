@@ -1,14 +1,14 @@
-import React from 'react';
 import './BurgerMenu.css';
+import Navigation from '../Navigation/Navigation';
 
-function BurgerMenu() {
+const BurgerMenu = ({ handleMenuClose, isOpen, handleOnSavedMoviesClick, handleOnMoviesClick, onClick }) => {
   return (
-    <>
-      <input className='burger-menu__toggle' type='checkbox' id='toggle' />
-      <label className='burger-menu' htmlFor='toggle'>
-        <span></span>
-      </label>
-    </>
+    <section className={`burger-menu ${isOpen && 'burger-menu_opened'}`} onClick={onClick}>
+      <div className="burger-menu__area">
+        <button className="burger-menu__close-btn" onClick={handleMenuClose}></button>
+        <Navigation handleOnSavedMoviesClick={handleOnSavedMoviesClick} handleOnMoviesClick={handleOnMoviesClick} />
+      </div>
+    </section>
   )
 }
 
