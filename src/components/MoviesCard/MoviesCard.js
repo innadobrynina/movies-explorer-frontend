@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { convertMinToHours } from '../../utils/utils';
-/* import { BASE_URL_MOVIE } from '../../utils/MoviesApi'; */
+import { BASE_URL_MOVIE } from '../../utils/MoviesApi';
 import './MoviesCard.css';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
@@ -37,10 +37,12 @@ const MoviesCard = ({ movie, image, nameRU, duration, isOnSavedPage, saveMovie, 
           <button type="button" className={saveButtonClassName} onClick={handleSaveBtnClick} aria-label="Сохранить фильм."></button>
       }
       </div>
-      {/* <a className="movies-card__image-link" href={movie.trailer} target="_blank" rel="noreferrer">
+      <div className="movies-card__trailer">
+      <a className="movies-card__image-link" href={movie.trailer} target="_blank" rel="noreferrer">
           <div className="movies-card__image" style={{ background: `center/cover url(${(isSaved && image) ? image : BASE_URL_MOVIE + image.url}) no-repeat` }}></div>
-        </a> */}
-        <a className="movies-card__image-link" href={movie.trailer} target="_blank" rel="noreferrer"><img className="movies-card__image" src={movie.image} alt={movie.nameRU} /></a>
+        </a>
+        {/* <a className="movies-card__image-link" href={movie.trailer} target="_blank" rel="noreferrer"><img className="movies-card__image" src={movie.image} alt={movie.nameRU} /></a> */}
+    </div>
     </li>
   );
 };
