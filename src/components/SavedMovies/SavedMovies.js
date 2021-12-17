@@ -1,16 +1,38 @@
+import './SavedMovies.css';
+import { React, useState, useEffect } from 'react';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import './SavedMovies.css';
 
-const SavedMovies = ({ movies, handleSearchSubmit, handleTumblerClick, saveMovie, deleteMovie, isFound, isRequestDone, isDisabled }) => {
+function SavedMovies({ isLiked, movies, onSubmit, onDelete, preloader, error, emptyResult }) {
 
+const [checkbox, setCheckbox] = useState(false);
+const [resultMovies, setResultMovies] = useState([]);
+
+useEffect(() => {
+  checkbox ? setResultMovies(movies.filter(movie => movie.duration <= 40)) : setResultMovies(movies)
+}, [checkbox, movies]);
+
+function handleCheckbox() {
+  setCheckbox(!checkbox);
+}
   return (
     <section className="saved-movies">
-      <SearchForm handleSearchSubmit={handleSearchSubmit} handleTumblerClick={handleTumblerClick} isDisabled={isDisabled}/>
-      <MoviesCardList movieList={movies} isOnSavedPage={true} saveMovie={saveMovie} deleteMovie={deleteMovie}
-        isFound={isFound} isRequestDone={isRequestDone} />
+      <div className="movies__container">
+      <SearchForm
+        handleCheckbox={handleCheckbox}
+        checkbox={checkbox}
+        onSubmit={onSubmit}
+        error={error}
+         />
+        <MoviesCardList
+        movies={resultMovies}
+        onDelete={onDelete}
+        emptyResult={emptyResult}
+        preloader={preloader}
+        isLiked={isLiked}
+          />
+      </div>
     </section>
-
   );
 };
 

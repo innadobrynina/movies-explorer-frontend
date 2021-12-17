@@ -1,12 +1,10 @@
 import './AboutMe.css';
-import Info from '../Info/Info';
 import avatar from '../../images/avatar.jpg';
 
-const AboutMe = () => {
+function AboutMe() {
   
   return (
-    <Info title="Студент" linkId="about-student" type="student" content="Информация о студенте.">
-    <section className="about">
+    <section className="about" id="student">
       <div className="about__container">
         <div className="about__wrap">
           <div className="about__column about__column_person">
@@ -30,7 +28,6 @@ const AboutMe = () => {
 
       </div>
       </section>
-      </Info>
     
   );
 }

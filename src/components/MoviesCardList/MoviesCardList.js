@@ -1,29 +1,65 @@
-import Preloader from '../Preloader/Preloader';
+import { React, useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import './MoviesCardList.css';
-import MoviesCard from "../MoviesCard/MoviesCard";
+import Preloader from '../Preloader/Preloader';
+import MoviesCard from '../MoviesCard/MoviesCard';
+import CardsNotFound from '../CardsNotFound/CardsNotFound';
+import More from '../More/More';
 
-
-const MoviesCardList = ({ movieList, isOnSavedPage, saveMovie, deleteMovie, isFound, isRequestDone,
-  amountToRender, isLoading }) => {
+function MoviesCardList({ movies, onSave, isLiked, onDelete, emptyResult, preloader  }) {
   
-    const moviesCardlistClassName = (
-      `movies-cardlist 
-      ${!isRequestDone && 'movies-cardlist_hidden'}`
-    );
+  const [countCards, setCountCards] = useState(defineCountCard('start'));//Сколько карточек
+  const [isBtnActive, setIsBtnActive] = useState(false);//Кнопка еще
 
-  return <>
-    {isLoading && <Preloader />}
-    <ul className={moviesCardlistClassName}>
-      {/* {isLoading && <Preloader />} */}
-      {
-        isFound ? movieList.slice(0, amountToRender).map((movie) => {
-          return <MoviesCard key={movie.nameRU} movie={movie} image={movie.image}
-            nameRU={movie.nameRU} duration={movie.duration} isOnSavedPage={isOnSavedPage}
-            saveMovie={saveMovie} deleteMovie={deleteMovie} />
-        }) : <li className="movies-cardlist__not-found-text">Ничего не найдено</li>
+  useEffect(() => {
+    window.addEventListener("resize", defineCountCard);
+    }, []);//Размер экрана
+
+    useEffect(() => {
+      countCards < movies.length ? setIsBtnActive(true) : setIsBtnActive(false);
+      }, [countCards, movies]);//Показать убрать кнопку
+
+  function defineCountCard(string) {
+      let cardsArr = 0;
+      let addCards = 0;
+
+      if (document.documentElement.scrollWidth > 520) {
+      cardsArr = 7;
+      addCards = 7;
       }
-    </ul>
-  </>
+      else {
+      cardsArr = 5;
+      addCards = 2;
+      }
+      if (string === 'start') {
+      return cardsArr
+      } else {
+      return addCards
+      }
+  }
+//Определяем сколько показать карточек сначале и плюсом
+  function handleMoreButton() {
+      setCountCards(countCards + defineCountCard('more'));
+  }//Клик по кнопке
+
+return (
+<section className="cards">
+<ul className="cards__gallery">
+  {movies.slice(0, countCards).map((cardObj) => (
+     <MoviesCard
+          key={cardObj.id}
+          card={cardObj}
+          onSave={onSave}
+          onDelete={onDelete}
+          isLiked={isLiked}
+      />
+      ))}
+</ul>
+  {preloader && (<Preloader />)}
+  {emptyResult && <CardsNotFound />}
+  {useLocation().pathname==='/movies' && (isBtnActive ? <More handleMoreBtn={handleMoreButton} /> : '')}
+</section>
+)
 }
 
 export default MoviesCardList;

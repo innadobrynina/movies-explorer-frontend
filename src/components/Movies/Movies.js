@@ -1,22 +1,40 @@
+import { React, useState, useEffect } from 'react';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import './Movies.css';
 
-const Movies = ({ movies, handleSearchSubmit, handleTumblerClick, saveMovie, deleteMovie, isFound,
-  isRequestDone, amountToRender, handleMoreBtnClick, isMoreBtnVisible, isLoading, isDisabled }) => {
-  
-    const onMoreBtnClick = () => {
-      handleMoreBtnClick(amountToRender);
-    }
+function Movies({ isLiked, movies, onSave, onDelete, onSubmit, preloader, error, emptyResult }) {
+  const [checkbox, setCheckbox] = useState(false);
+  const [resultMovies, setResultMovies] = useState([]);
+
+  useEffect(() => {
+    checkbox ? setResultMovies(movies.filter(movie => movie.duration <= 40)) : setResultMovies(movies)
+  }, [checkbox, movies]);
+
+  function handleCheckbox() {
+    setCheckbox(!checkbox);
+  }
 
   return (
-    <section className="movies">
-      <SearchForm handleSearchSubmit={handleSearchSubmit} handleTumblerClick={handleTumblerClick} isDisabled={isDisabled} />
-      <MoviesCardList movieList={movies} isOnSavedPage={false} saveMovie={saveMovie} deleteMovie={deleteMovie}
-        isFound={isFound} isRequestDone={isRequestDone} amountToRender={amountToRender} isLoading={isLoading} />
-      {isMoreBtnVisible && <button className="movies__more-btn" type="button" onClick={onMoreBtnClick}>Ещё</button>}
-    </section>
+  <section className='movies'>
+    <div className='movies__container'>
+      <SearchForm
+        handleCheckbox={handleCheckbox}
+        checkbox={checkbox}
+        onSubmit={onSubmit}
+        error={error}
+        />
+      <MoviesCardList
+        movies={resultMovies}
+        onSave={onSave}
+        onDelete={onDelete}
+        emptyResult={emptyResult}
+        preloader={preloader}
+        isLiked={isLiked}
+      />
+    </div>
+  </section>
   );
 }
 
-export default Movies;
+export default Movies

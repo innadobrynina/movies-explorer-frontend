@@ -37,5 +37,9 @@
       "last 1 safari version"
     ]
   },
+  "description": "Фронтенд часть дипломного проекта студента 24 потока ЯндексПрактикум Добрыниной ИН",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
   "devDependencies": {}
 }

@@ -1,92 +1,152 @@
-import { BASE_URL_MOVIE } from "./MoviesApi";
-import { defaultProp } from './constants';
 class MainApi {
-  constructor(options) {
-    this.baseUrl = options.baseUrl;
+  constructor({ url, headers }) {
+    this._url = url;
+    this._headers = headers;
   }
 
   _getResponseData(res) {
-    if (res.ok) return res.json();
-    return Promise.reject(new Error(`Ошибка ${res.status}`));
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(res.status);
   }
 
-  getMovies(jwt) {
-    return fetch(`${this.baseUrl}/movies`, {
+  register(name, email, password) {
+    return fetch(`${this._url}/signup`, {
+      method: 'POST',
       headers: {
-        authorization: `Bearer ${jwt}`,
-        'Content-Type': 'application/json'
-      }
-    }).then((res) => this._getResponseData(res));
-  }
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Credentials': true,
+      },
+        body: JSON.stringify(name, email, password)
+      })
+      .then(res => {
+        return this._getResponseData(res);
+      })
+  };
 
-  getMe(jwt) {
-    return fetch(`${this.baseUrl}/users/me`, {
+  authorize(email, password) {
+    return fetch(`${this._url}/signin`, {
+      method: "POST",
       headers: {
-        authorization: `Bearer ${jwt}`,
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Credentials': true,
+      },
+      credentials: 'include',
+      body: JSON.stringify({ password, email })
+    })
+    .then(res => {
+      return this._getResponseData(res);
+    })
+  };
+
+  quit() {
+    return fetch(`${this._url}/signout`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Credentials': true,
+    },
+      credentials: 'include',
+    })
+      .then((res) => {
+        return this._getResponseData(res);
+      })
+  };
+
+  getPersonInfo() {
+    return fetch(`${this._url}/users/me`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
         'Content-Type': 'application/json',
       },
     })
-      .then((res) => this._getResponseData(res));
-  }
-
- saveMovie(jwt, movie) {
-    return fetch(`${this.baseUrl}/movies`, {
-      headers: {
-        authorization: `Bearer ${jwt}`,
-        'Content-Type': 'application/json'
-      },
-      method: 'POST',
-      body: JSON.stringify({
-        country: movie.country ? movie.country : defaultProp, 
-        director: movie.director ? movie.director : defaultProp, 
-        duration: movie.duration ? movie.duration : 0, 
-        year: movie.year ? movie.year : 0, 
-        description: movie.description ? movie.description : defaultProp, 
-        image: movie.image.url ? BASE_URL_MOVIE + movie.image.url : movie.image, 
-        trailer: movie.trailer ? movie.trailer : movie.trailerLink, 
-        nameRU: movie.nameRU ? movie.nameRU : defaultProp, 
-        nameEN: movie.nameEN ? movie.nameEN : defaultProp, 
-        thumbnail: movie.thumbnail ? movie.thumbnail : BASE_URL_MOVIE + movie.image.formats.thumbnail.url, 
-        movieId: movie.id
-      })
-    })
-      .then((res) => this._getResponseData(res));
-  }
-
-  deleteMovieFromSaved(jwt, movieId) {
-    return fetch(`${this.baseUrl}/movies/${movieId}`, {
-      headers: {
-        authorization: `Bearer ${jwt}`,
-        'Content-Type': 'application/json'
-      },
-      method: 'DELETE',
-    })
-      .then((res) => this._getResponseData(res));
-  }
-
-  toggleMovieSave(jwt, movie, movieId, isSaved) {
-    return isSaved ? this.deleteMovieFromSaved(jwt, movieId) : this.saveMovie(jwt, movie);
-  }
-
-  getProfileInfo(jwt, email, name) {
-    return fetch(`${this.baseUrl}/users/me`, {
-      headers: {
-        authorization: `Bearer ${jwt}`,
-        'Content-Type': 'application/json'
-      },
-      method: 'PATCH',
-      body: JSON.stringify({
-        email,
-        name
-      })
-    })
-      .then((res) => this._getResponseData(res));
-  }
+      .then(res => { return this._getResponseData(res);
+  })
 };
 
-const mainApi = new MainApi({
-baseUrl: 'https://api.indob-diploma.nomoredomains.club',
-  //   baseUrl: 'http://localhost:3000',
-});
+getProfileInfo(name, email) {
+    return fetch(`${this._url}/users/me`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: 'PATCH',
+      credentials: 'include',
+      body: JSON.stringify({
+        name: name,
+        email: email
+      })
+    })
+      .then(res => { return this._getResponseData(res);
+    });
+}
 
-export default mainApi;
+  getInitialCards() {
+    return fetch(`${this._url}/movies`, {
+      credentials: 'include',
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(res => {
+        return this._getResponseData(res);
+    });
+}
+
+  addCard(data) {
+      return fetch(`${this._url}/movies`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            country: data.country,
+            director: data.director,
+            duration: data.duration,
+            year: data.year,
+            description: data.description,
+            image: data.image,
+            trailer: data.trailer,
+            thumbnail: data.image,
+            movieId: data.movieId,
+            nameRU: data.nameRU,
+            nameEN: data.nameEN,
+        })
+      })
+        .then(res => {return this._getResponseData(res);
+  })
+}
+
+  removeCard(id) {
+    return fetch(`${this._url}/movies/${id}`, {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then(res => {
+      if (res.ok) {
+          return Promise.resolve("done");
+      }
+      return Promise.reject(new Error(`Ошибка: ${res.status}`));
+  })
+  }
+
+  checkToken() {
+    return fetch(`${this._url}/users/me`, {
+      credentials: 'include',
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Credentials': true,
+      }
+    })
+    .then(res => { return this._getResponseData(res);
+    })
+  };
+}
+
+// export default new MainApi({url: `http://localhost:3000`});
+export default new MainApi({url: `https://api.indob-diploma.nomoredomains.club`});

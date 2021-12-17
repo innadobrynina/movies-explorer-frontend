@@ -5,15 +5,15 @@ import Techs from '../Techs/Techs';
 import AboutMe from '../AboutMe/AboutMe';
 import Portfolio from '../Portfolio/Portfolio';
 
-const Main = () => {
+function Main() {
   return (
-    <main>
+    <section className="main">
       <Promo />
-      <AboutProject/>
-      <Techs/>
-      <AboutMe/>
-      <Portfolio/>
-    </main>
+      <AboutProject />
+      <Techs />
+      <AboutMe />
+      <Portfolio />
+    </section>
   );
 }
 

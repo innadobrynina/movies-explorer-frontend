@@ -1,10 +1,8 @@
 import './AboutProject.css';
-import Info from '../Info/Info';
 
-const AboutProject = () => {
+function AboutProject() {
     return (
-      <Info title="О проекте" linkId="about-project" type="project" content="Информация о проекте.">
-      <section className="about-project">
+      <section className="about-project" id="about">
           <div className="about-project__container">
               <div className="about-project__info">
                 <div className="about-project__column">
@@ -24,7 +22,6 @@ const AboutProject = () => {
               </div>     
           </div>
       </section>
-      </Info>
     );
   }
   

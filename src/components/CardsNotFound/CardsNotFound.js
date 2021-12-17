@@ -1,6 +1,6 @@
 import './CardsNotFound.css';
 
-function CardsNotFound(props) {
+function CardsNotFound() {
     return (
         <div className="cards-not-found">
             <p className="cards-not-found__text">Запрос не дал результатов.</p>
