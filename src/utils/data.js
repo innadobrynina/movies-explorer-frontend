@@ -1,4 +1,4 @@
-import image from '../images/pic1.jpg';
+import image from '../images/pic1.png';
 
 const cards = [
   {

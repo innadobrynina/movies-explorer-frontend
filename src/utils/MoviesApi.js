@@ -1,6 +1,6 @@
 class MoviesApi {
   constructor(baseUrl) {
-    this.baseUrl = baseUrl;
+    this._baseUrl = baseUrl;
   }
 
   getMovies() {
