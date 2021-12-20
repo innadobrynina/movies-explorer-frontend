@@ -96,8 +96,8 @@ function handleUpdateUser({ email, name }) {
   MainApi.patchPersonInfo(name, email)
     .then((res) => {
       setUserData({ 
+        name: res.name, 
         email: res.email, 
-        name: res.name 
       })
       setSuccessText({text: "Данные изменены"});
       setTimeout(()=>{closeAll()}, 2000);

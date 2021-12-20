@@ -1,7 +1,7 @@
 import './Promo.css';
 import promo from '../../images/landing-logo.svg';
 
-const Promo = () => {
+function Promo () {
     return (
       <section className="promo">
           <div className="promo__block">

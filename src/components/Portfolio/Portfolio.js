@@ -1,6 +1,6 @@
 import './Portfolio.css';
 
-const Portfolio = () => {
+function Portfolio() {
   return (
     <section className="portfolio">
       <div className="portfolio__container">
