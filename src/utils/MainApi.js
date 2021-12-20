@@ -148,5 +148,5 @@ getProfileInfo(name, email) {
   };
 }
 
-export default new MainApi({url: `http://localhost:3000`});
-//export default new MainApi({url: `https://api.indob-diploma.nomoredomains.club/`});
+//export default new MainApi({url: `http://localhost:3000`});
+export default new MainApi({url: `https://api.indob-diploma.nomoredomains.club/`});
