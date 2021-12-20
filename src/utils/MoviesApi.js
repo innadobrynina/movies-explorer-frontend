@@ -1,10 +1,10 @@
 class MoviesApi {
-  constructor(baseUrl) {
-    this._baseUrl = baseUrl;
+  constructor(url) {
+    this._url = url;
   }
 
   getMovies() {
-    return fetch(this._baseUrl, {
+    return fetch(this._url, {
       method: 'GET',
       headers: {
                 'Content-type': 'application/json'
