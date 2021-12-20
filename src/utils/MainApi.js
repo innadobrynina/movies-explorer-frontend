@@ -66,13 +66,14 @@ class MainApi {
   })
 };
 
-getProfileInfo(name, email) {
+patchPersonInfo(name, email) {
     return fetch(`${this._url}/users/me`, {
+      method: 'PATCH',
+      credentials: 'include',
       headers: {
         "Content-Type": "application/json",
       },
-      method: 'PATCH',
-      credentials: 'include',
+      
       body: JSON.stringify({
         name: name,
         email: email
@@ -149,4 +150,4 @@ getProfileInfo(name, email) {
 }
 
 //export default new MainApi({url: `http://localhost:3000`});
-export default new MainApi({url: `https://api.indob-diploma.nomoredomains.club/`});
+export default new MainApi({url: `https://api.indob-diploma.nomoredomains.club`});

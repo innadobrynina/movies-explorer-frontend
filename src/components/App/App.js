@@ -93,7 +93,7 @@ function handleLogin({ email, password }) {
 
 //Профиль
 function handleUpdateUser({ email, name }) {
-  MainApi.getProfileInfo(name, email)
+  MainApi.patchPersonInfo(name, email)
     .then((res) => {
       setUserData({ 
         email: res.email, 
