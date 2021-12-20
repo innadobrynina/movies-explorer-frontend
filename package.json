@@ -40,6 +40,5 @@
   "description": "Фронтенд часть дипломного проекта студента 24 потока ЯндексПрактикум Добрыниной ИН",
   "main": "index.js",
   "author": "",
-  "license": "ISC",
-  "devDependencies": {}
+  "license": "ISC"
 }
