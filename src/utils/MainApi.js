@@ -49,7 +49,7 @@ class MainApi {
     },
       credentials: 'include',
     })
-      .then((res) => {
+      .then(res => {
         return this._getResponseData(res);
       })
   };
