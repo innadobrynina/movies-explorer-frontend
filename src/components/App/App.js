@@ -1,7 +1,6 @@
 import { React,  useEffect, useState } from 'react';
 import { Route, Switch, useHistory, Redirect } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-import { withRouter } from 'react-router-dom';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Main from '../Main/Main';
@@ -460,4 +459,4 @@ useEffect(() => {
   );
 }
 
-export default withRouter(App);
+export default App;

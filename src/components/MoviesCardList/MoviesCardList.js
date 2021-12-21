@@ -59,7 +59,7 @@ return (
   {emptyResult && <CardsNotFound />}
   {useLocation().pathname==='/movies' && (isBtnActive ? <More handleMoreBtn={handleMoreButton} /> : '')}
 </section>
-)
+  )
 }
 
 export default MoviesCardList;
