@@ -4,7 +4,7 @@ class MoviesApi {
   }
 
   getMovies() {
-    return fetch(this._url, {
+    return fetch("https://api.nomoreparties.co/beatfilm-movies", {
       method: 'GET',
       headers: {
                 'Content-type': 'application/json'
