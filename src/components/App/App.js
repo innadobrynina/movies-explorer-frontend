@@ -12,7 +12,7 @@ import Login from '../Login/Login';
 import './App.css';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import MainApi from '../../utils/MainApi';
-import moviesApi from '../../utils/MoviesApi';
+import MoviesApi from '../../utils/MoviesApi';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 function App() {
@@ -164,7 +164,7 @@ function handleLogout() {
 }
 
 function getAllMovies() {
-  moviesApi.getMovies()
+  MoviesApi.getMovies()
     .then((res) => {
       const moviesArray = res.map((item) => {
         return {
