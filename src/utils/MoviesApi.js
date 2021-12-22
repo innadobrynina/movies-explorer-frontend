@@ -16,6 +16,5 @@
             return Promise.reject(new Error(`Ошибка: ${response.status}`));
         });
   }
-}
 
 //export default new MoviesApi('https://api.nomoreparties.co/beatfilm-movies');
