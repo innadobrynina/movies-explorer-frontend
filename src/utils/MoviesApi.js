@@ -1,14 +1,14 @@
-class MoviesApi {
+/* class MoviesApi {
   constructor(url) {
     this._url = url;
-  }
+  } */
 
-  getMovies() {
-    return fetch(this._url, {
+  export const getMovies =() => {
+    return fetch('https://api.nomoreparties.co/beatfilm-movies', {
       method: 'GET',
-      headers: {
+     /*  headers: {
                 'Content-type': 'application/json'
-            }
+            } */
           }).then(response => {
             if (response.ok) {
                 return response.json();
@@ -18,4 +18,4 @@ class MoviesApi {
   }
 }
 
-export default new MoviesApi('https://api.nomoreparties.co/beatfilm-movies');
+//export default new MoviesApi('https://api.nomoreparties.co/beatfilm-movies');
