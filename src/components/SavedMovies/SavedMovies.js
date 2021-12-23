@@ -33,7 +33,7 @@ function handleCheckbox() {
           />
       </div>
     </section>
-  );
-};
+  )
+}
 
 export default SavedMovies;

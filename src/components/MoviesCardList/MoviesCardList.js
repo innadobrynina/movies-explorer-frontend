@@ -41,11 +41,12 @@ function MoviesCardList({ movies, onSave, isLiked, onDelete, emptyResult, preloa
   function handleMoreButton() {
       setCountCards(countCards + defineCountCard('more'));
   }//Клик по кнопке
-
+  console.log('movies=', movies);
 return (
 <section className="cards">
 <ul className="cards__gallery">
   {movies.slice(0, countCards).map((cardObj) => (
+    
      <MoviesCard
           key={cardObj.id}
           card={cardObj}
@@ -54,7 +55,9 @@ return (
           isLiked={isLiked}
       />
       ))}
+      
 </ul>
+
   {preloader && (<Preloader />)}
   {emptyResult && <CardsNotFound />}
   {useLocation().pathname==='/movies' && (isBtnActive ? <More handleMoreBtn={handleMoreButton} /> : '')}
