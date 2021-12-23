@@ -8,18 +8,19 @@
 .search__form {
   display: flex;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
+  justify-content: space-around;
 }
 .search__form-block {
   display: grid;
   gap: 10px;
-  grid-template-columns: auto 44px;
+  grid-template-columns: auto 4px;
   align-items: center;
   align-content: center;
-  width: 100%;
+  width: 200%;
   height: 50px;
-  margin: 0 0 2.52%;
+  margin: 0;
   padding: 0;
   border: none;
 }
@@ -83,7 +84,7 @@
   }
 
   .search__form-block{
-      margin-bottom: 4.06%;
+      margin-bottom: 0;
   }
 }
 
@@ -94,7 +95,7 @@
   }
   
   .search__form-block {
-    margin-bottom: 5.65%;
+    margin-bottom: 0;
   }
 }
 

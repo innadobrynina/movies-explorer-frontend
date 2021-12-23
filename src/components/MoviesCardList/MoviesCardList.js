@@ -41,7 +41,7 @@ function MoviesCardList({ movies, onSave, isLiked, onDelete, emptyResult, preloa
   function handleMoreButton() {
       setCountCards(countCards + defineCountCard('more'));
   }//Клик по кнопке
-  console.log('movies=', movies);
+ // console.log('movies=', movies);
 return (
 <section className="cards">
 <ul className="cards__gallery">
