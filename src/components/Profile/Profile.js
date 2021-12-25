@@ -1,42 +1,81 @@
-import React from 'react';
+import {React, useState } from 'react';
 import './Profile.css';
-import Header from '../Header/Header';
+import Form from '../Form/Form';
+import FormValidation from '../../utils/Validation';
 
-function Profile() {
+function Profile(props) {
+  const formValidation = FormValidation();
+  const [formSavedProcess, setFormSavedProcess] = useState(false);
+  const {email, name} = formValidation.data;
+
+  function handleSubmit(e) {
+    setFormSavedProcess(true)
+    e.preventDefault();
+    if (!email || !name) {
+        return;
+    }
+    props.onSave({ email: email, name: name });
+    formValidation.resetForm();
+    setTimeout(()=>{setFormSavedProcess(false)}, 3000);
+}
+
+function handleCancel() {
+    props.onClose();
+    formValidation.resetForm();
+}
+
   return (
-    <div>
-      <Header />
-      <section className='profile'>
-        <h2 className='profile__title'>Привет, Инна!</h2>
-        <form className='profile__form'>
-          <label className='profile__label'>
-            Имя
-            <input
-              className='profile__input'
-              required
-              name='name'
-              type='text'
-              placeholder='Inna'
-              minLength='2'
-              maxLength='40'
-            />
-          </label>
-          <label className='profile__label'>
-            E-mail
-            <input
-              className='profile__input'
-              required
-              name='email'
-              type='email'
-              placeholder='a-ya-dobraya@yandxex.ru'
-            />
-          </label>
-        </form>
-        <div className='profile__buttons'>
-          <button className='profile__button profile__edit'>Редактировать</button>
-          <button className='profile__button profile__logout'>Выйти из аккаунта</button>
+    <div className="profile">
+        <h3 className="profile__greeting">Привет, {props.userData.name} !</h3>
+        <div className={`profile__info ${props.isOpen ? 'profile__info_hide' : ''}`}>
+          <p className="profile__line">Имя<span className="profile__line_userinfo">{props.userData.name}</span></p>
+          <p className="profile__line">Почта<span className="profile__line_userinfo">{props.userData.email}</span></p>
+          <p className="profile__btn" onClick={props.onEditBtnClick}>Редактировать</p>
+          <p className="profile__btn profile__btn_quit" onClick={props.onLogOut}>Выйти из аккаунта</p>
         </div>
-      </section>
+          <div className={`profile__form ${props.isOpen ? 'profile__form_opened' : ''}`}>
+          <Form
+              id={'profile'}
+              name={'user'}
+              onSubmit={handleSubmit}
+              button={'Сохранить'}
+              errorText={props.error}
+              successText={props.success}
+              isValid={formValidation.isValid}
+              >
+            <p className="form__input-name">Имя</p>
+                <input className={`form__input ${formValidation.inputValid.name===undefined ? '' : (!formValidation.inputValid.name ? "form__input_invalid" : '')}`}
+                id="name-input"
+                name="name"
+                type="text"
+                maxLength="30"
+                minLength="2"
+                onChange={formValidation.handleChange}
+                placeholder={props.userData.name}
+                value={name || ''}
+                pattern="[A-Za-zА-Яа-яЁё0-9\s-]{2,30}"
+                required
+                disabled={formSavedProcess ? true : false}
+                />
+                <span name="name" className="form__input-error">{formValidation.errors.name}</span>
+                <p className="form__input-name">Почта</p>
+                <input className={`form__input ${formValidation.inputValid.email===undefined ? '' : (!formValidation.inputValid.email ? "form__input_invalid" : '')}`}
+                id="email-input"
+                type="email"
+                name="email"
+                maxLength="60"
+                minLength="5"
+                onChange={formValidation.handleChange}
+                placeholder={props.userData.email}
+                value={email || ''}
+                pattern="^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$"
+                required
+                disabled={formSavedProcess ? true : false}
+                  />
+                <span name="email" className="form__input-error">{formValidation.errors.email}</span>
+                <p className="profile__btn-cancel" onClick={handleCancel}>Отмена</p>
+          </Form>
+      </div>
     </div>
   );
 }

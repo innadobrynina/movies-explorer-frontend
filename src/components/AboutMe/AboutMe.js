@@ -4,10 +4,8 @@ import avatar from '../../images/avatar.jpg';
 function AboutMe() {
   
   return (
-    <section className="about">
+    <section className="about" id="student">
       <div className="about__container">
-        <h2 id="Студент" className="about__title">Студент</h2>
-
         <div className="about__wrap">
           <div className="about__column about__column_person">
             <h3 className="about__name">Инна</h3>
@@ -25,10 +23,12 @@ function AboutMe() {
           <div className="about__column about__column_avatar">
             <img className="about__avatar" src={avatar} alt="Аватар"/>
           </div>
+          
         </div>
 
       </div>
-    </section>
+      </section>
+    
   );
 }
 

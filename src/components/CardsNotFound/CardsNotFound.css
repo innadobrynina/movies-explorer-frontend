@@ -1,0 +1,34 @@
+.cards-not-found {
+  display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.cards-not-found__text {
+  font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    margin: 12% 0;
+    text-align: center;
+    color: grey;
+}
+
+@media screen and (max-width: 844px) {
+
+  .cards-not-found__text{
+      margin: 14% 0;
+      font-size: 22px;
+      line-height: 27px;
+  }
+}
+
+@media screen and (max-width: 554) {
+
+  .cards-not-found__text{
+      margin: 18% 0;
+      font-size: 20px;
+      line-height: 25px;
+  }
+}

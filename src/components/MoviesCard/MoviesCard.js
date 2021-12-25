@@ -1,38 +1,44 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
 import './MoviesCard.css';
-import image from "../../images/pic1.png";
-import { Route } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
+function MoviesCard({ card, onSave, onDelete, isLiked }) {
+
+    function TimeMath(count){
+        const hours = Math.floor(count / 60);
+        const minutes = Math.floor(count - (hours * 60));
+        return `${hours > 0 ? (hours + ' ч : ' + minutes + ' мин') : (minutes + ' мин')}`;
+    }
+
+    let pathname = useLocation().pathname;
 
 
-function MoviesCard() {
+    function handleSaveClick(evt) {
+        evt.preventDefault();
+        onSave(card);
+      }
 
-return (
-    <figure className="movies-card">
-        <div className="movies-card-column">
-            <figcaption className="movies-card__figcaption">
+    function handleDeleteClick(evt) {
+        evt.preventDefault();
+        onDelete(card)
+    }
 
-                <h3 className="movies-card__card-title">Название</h3>
-                <p className="movies-card__duration">Продолжительность</p>
-                
-            </figcaption>
-            <Route path='/movies'>
-            <div className="movies-card-block">
-                <button className="movies-card__like-button" type="button" />
+    return (
+        <li className="movie-card">
+            <div className="movie-card__content">
+            <div className="movie-card__info">
+                <h2 className="card__title">{card.nameRU}</h2>
+                <p className="movie-card__duration">{TimeMath(card.duration)}</p>
             </div>
-            </Route>
-            <Route path='/saved-movies'>
-            <div className="movies-card-block">
-                <button className="movies-card__delete-button" type="button" />
-            </div>
-            </Route>
-        </div>
-      <a className="movies-card__link" href="" target="_blank" rel="noopener noreferrer">
-        <img className="movies-card__card" src={image} alt="фильм"/>
-      </a>
-    </figure>
-    
-  );
+                    <button 
+                    className={pathname === "/movies" ? `movie-card__btn-like ${isLiked(card) ? "movie-card__btn-like_active" : ""}` : "movie-card__btn-delete"}
+                    type="button"
+                    onClick={pathname === "/movies" && !isLiked(card) ? handleSaveClick : handleDeleteClick}
+                    >
+                    </button>
+                    </div>
+            <a href={card.trailer} target="_blank" rel="noreferrer"><img className="movie-card__image" src={card.image} alt={card.nameRU} /></a>
+        </li>
+    )
 }
 
 export default MoviesCard;

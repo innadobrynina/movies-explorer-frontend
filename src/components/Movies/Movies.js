@@ -1,21 +1,40 @@
-import React from 'react';
-import './Movies.css';
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
+import { React, useState, useEffect } from 'react';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import ShowMore from '../ShowMore/ShowMore';
+import './Movies.css';
 
-function Movies() {
+function Movies({ isLiked, movies, onSave, onDelete, onSubmit, preloader, error, emptyResult }) {
+  const [checkbox, setCheckbox] = useState(false);
+  const [resultMovies, setResultMovies] = useState([]);
+
+  useEffect(() => {
+    checkbox ? setResultMovies(movies.filter(movie => movie.duration <= 40)) : setResultMovies(movies)
+  }, [checkbox, movies]);
+
+  function handleCheckbox() {
+    setCheckbox(!checkbox);
+  }
+
   return (
-    <div>
-        <Header />
-        <SearchForm />
-        <MoviesCardList />
-        <ShowMore />
-        <Footer />
+  <section className='movies'>
+    <div className='movies__container'>
+      <SearchForm
+        handleCheckbox={handleCheckbox}
+        checkbox={checkbox}
+        onSubmit={onSubmit}
+        error={error}
+        />
+      <MoviesCardList
+        movies={resultMovies}
+        onSave={onSave}
+        onDelete={onDelete}
+        emptyResult={emptyResult}
+        preloader={preloader}
+        isLiked={isLiked}
+      />
     </div>
+  </section>
   );
 }
 
-export default Movies;
+export default Movies

@@ -1,18 +1,23 @@
-   
 import './FilterCheckbox.css';
 
-function FilterCheckbox() {
-  return (
-     <form className="filter-checkbox">
-      <label className="filter-checkbox__container" htmlFor="checkbox">
-        <input className="filter-checkbox__invisible-field" type="checkbox" id="checkbox" />
-        <span
-          className="filter-checkbox__field"
+function FilterCheckbox({ handleCheckbox, checkbox }) {
+
+    return (
+        <fieldset className="checkbox">
+        <label className="checkbox-btn" htmlFor="checkbox">
+        <input
+           onClick={handleCheckbox}
+           type="checkbox"
+           className="checkbox-toggle"
+           name="checkbox"
+           id="checkbox"
+           defaultChecked={checkbox}
         />
-        <p className="filter-checkbox__field-name">Короткометражки</p>
-      </label>
-    </form>
-  );
+        <span className="pseudo-item"><span className="pseudo-item-knob"></span></span>
+        </label>
+        <p className="checkbox-text">Короткометражки</p>
+         </fieldset>
+    )
 }
 
 export default FilterCheckbox;

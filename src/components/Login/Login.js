@@ -1,47 +1,73 @@
-import React from 'react';
-import './Login.css';
-import logo from '../../images/logo.svg';
+import {React, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Form from '../Form/Form';
+import Logo from '../Logo/Logo';
+import './Login.css';
+import { PAGE_REGISTRATION } from '../../utils/constants';
+import FormValidation from '../../utils/Validation';
 
-function Login() {
+function Login({handleLogin, error}) {
+
+  const formValidation = FormValidation();
+  const [formSavedProcess, setFormSavedProcess] = useState(false);
+  const {email, password} = formValidation.data;
+
+  function handleSubmit(e) {
+    setFormSavedProcess(true)
+    e.preventDefault();
+    if (!email || !password) {
+        return;
+    }
+    handleLogin({ email: email, password: password });
+    formValidation.resetForm();
+    setTimeout(()=>{setFormSavedProcess(false)}, 3000);
+}
+
   return (
-    <>
-      <section className='sign'>
-        <Link to='/' className='sign__start-page'>
-          <img className='sign__logo-image' src={logo} alt='Логотип' />
-        </Link>
-        <h2 className='sign__title'>Рады видеть!</h2>
-        <form className='sign__form'>
-          <label className='sign__label'>
-            E-mail
-            <input
-              className='sign__input'
-              required
-              name='email'
-              type='email'
-              placeholder=''
+    <section className="login">
+      <Logo/>
+      <h1 className="login__greetings">Рады видеть!</h1>
+        <Form
+        id={'login'}
+        name={'signin'}
+        onSubmit={handleSubmit}
+        button={'Войти'}
+        errorText={error}
+        isValid={formValidation.isValid}
+        >
+            <p className="form__input-name">E-mail</p>
+            <input className={`form__input ${formValidation.inputValid.email===undefined ? '' : (!formValidation.inputValid.email ? "form__input_invalid" : '')}`}
+            id="email-input"
+            type="email"
+            name="email"
+            maxLength="60"
+            minLength="5"
+            onChange={formValidation.handleChange}
+            placeholder="Введите почту"
+            value={email || ''}
+            pattern="^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$"
+            required
+            disabled={formSavedProcess ? true : false}
             />
-          </label>
-          <label className='sign__label'>
-            Пароль
-            <input
-              className='sign__input'
-              required
-              name='password'
-              type='text'
-              placeholder='********'
-              minLength='2'
-              maxLength='40'
-            />
-          </label>
-        </form>
-        <button className='sign__button'>Войти</button>
-        <div className='sign__toggle'>
-          <p className='sign__text'>Ещё не зарегистрированы?</p>
-          <Link className='sign__link' to='/signup'>Регистрация</Link>
-        </div>
-      </section>
-    </>
+        <span className="form__input-error">{formValidation.errors.email}</span>
+        <p className="form__input-name">Пароль</p>
+        <input className={`form__input ${formValidation.inputValid.password===undefined ? '' : (!formValidation.inputValid.password ? "form__input_invalid" : '')}`}
+                id="password-input"
+                type="password"
+                name="password"
+                maxLength="20" 
+                minLength="5"
+                placeholder="Введите пароль"
+                onChange={formValidation.handleChange}
+                autoComplete="off"
+                value={password || ''}
+                required
+                disabled={formSavedProcess ? true : false}
+              />
+        <span className="form__input-error">{formValidation.errors.password}</span>
+        </Form>
+      <p className="login__link">Ещё не зарегистрированы? <Link to={PAGE_REGISTRATION}>Регистрация</Link></p>
+    </section>
   );
 };
 
